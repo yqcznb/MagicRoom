@@ -12,7 +12,8 @@
       </svg>
      </div>
     </div>
-    <div class="touxiang">
+    <router-link  to="/data">
+      <div class="touxiang">
        <div>
           <van-image
           round
@@ -26,7 +27,8 @@
           <div>职位：{{position}}</div>
           <div>{{name}}老师</div>
         </div>
-    </div>
+      </div>
+    </router-link>
     <div class="button">
         <div>
           <svg class="icon" aria-hidden="true">
@@ -92,6 +94,7 @@ export default{
     }
   }
   .touxiang{
+    color:black;
     margin-top: 3em;
     .info{
       margin-top: 1.5em;

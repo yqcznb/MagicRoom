@@ -13,7 +13,13 @@ const routes = [
     path: "/curriculum",
     name: "curriculum",
     component: () => import("../components/Teacher/curriculum.vue")
+  },
+  {
+    path: "/data",
+    name: "data",
+    component: () => import("../components/Admin/data.vue")
   }
+
  
 ]
 
