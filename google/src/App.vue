@@ -1,12 +1,6 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <van-button type="warning">vant组件测试</van-button>
-      图标测试
-      <svg class="icon" aria-hidden="true">
-        <use xlink:href="#iconzhengchang"></use>
-      </svg>
-    </div>
+    
     <router-view/>
   </div>
 </template>
@@ -34,7 +28,7 @@
 }
 
  .icon {
-     width: 1em; height: 1em;
+     width: 2em; height: 2em;
      vertical-align: -0.15em;
      fill: currentColor;
      overflow: hidden;
