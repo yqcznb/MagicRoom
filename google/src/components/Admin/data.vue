@@ -2,9 +2,11 @@
   <div id="data">
     <div class="top">
      <div class="left">
-      <svg class="icon" aria-hidden="true">
-        <use xlink:href="#iconhuabanfuben"></use>
-      </svg>
+    <router-link class="mui-tab-item" to="/my">
+        <svg class="icon" aria-hidden="true" >
+            <use xlink:href="#iconhuabanfuben"></use>
+        </svg>
+    </router-link>
      </div>
      <div>
          个人资料
@@ -23,10 +25,16 @@
         />
        </div>
         <div class="info">
-          <div>工号：{{worknum}}</div>
-          <div>职位：{{position}}</div>
-          <div>{{name}}老师</div>
+        <div>
+          姓名：古飞扬
         </div>
+        <div>
+          职位：教务处主任
+        </div>
+        <div>
+          工号：202000000
+        </div> 
+    </div>
     </div>
     <router-view/>
   </div>
@@ -80,8 +88,9 @@ export default{
       margin-top: 1.5em;
       div{
        text-align: left;
-       padding: 0.3em 2em;
        font-weight: bold;
+       border-top: 1px solid #eee;
+       padding:0.5em 0;
      }
     }
   }
