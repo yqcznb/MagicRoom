@@ -8,7 +8,8 @@ const routes = [
     path: "/my",
     name: "my",
     component: () => import("../components/Admin/my.vue")
-  }
+  },
+  
  
 ]
 
