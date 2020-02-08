@@ -18,6 +18,11 @@ const routes = [
     path: "/data",
     name: "data",
     component: () => import("../components/Admin/data.vue")
+  },
+  {
+    path: "/change",
+    name: "change",
+    component: () => import("../components/Admin/change.vue")
   }
 
  
