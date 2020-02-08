@@ -30,27 +30,26 @@
       </div>
     </router-link>
     <div class="button">
-        <div>
+        <div @click="change(1)">
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#iconshouji-copy"></use>
           </svg>1555****000
         </div>
-        <div>
+        <div @click="change(2)">
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#iconyouxiangbangding"></use>
           </svg>Mag****@gmail.com
         </div>
-        <div>
+        <div @click="change(3)">
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#icongengduo"></use>
           </svg>关于
         </div>
-        <div>
+        <div @click="change(4)">
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#iconshezhi2"></use>
           </svg>设置
-        </div>
-       
+        </div>   
     </div>
     <router-view/>
   </div>
@@ -72,7 +71,13 @@ export default{
     
    },
    methods:{
-      
+      change(num){
+        if(num==1){
+          this.$router.push({
+          path: `/change`,
+        })
+        }
+      }
    }
 }
 </script>
@@ -122,7 +127,7 @@ export default{
     }
     div:first-child{
       margin-top: 1.5em;
-      box-shadow:0px -1px  2px 3px #eee;
+      box-shadow:0px -2px  2px 2px #eee;
       border-top: 1px solid #eee;
 
     }
