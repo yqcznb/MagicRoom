@@ -33,4 +33,8 @@
      fill: currentColor;
      overflow: hidden;
   }
+
+  .placeholder {
+    opacity: 0;
+  }
 </style>
