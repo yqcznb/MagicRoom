@@ -28,8 +28,22 @@ const routes = [
     path: "/scanning",
     name: "scanning",
     component: () => import("@/components/scanning/index.vue")
+  },
+  {
+    path: "/email",
+    name: "email",
+    component: () => import("@/components/Admin/email.vue")
+  },
+  {
+    path: "/about",
+    name: "about",
+    component: () => import("@/components/Admin/about.vue")
+  },
+  {
+    path: "/set",
+    name: "set",
+    component: () => import("@/components/Admin/set.vue")
   }
-
  
 ]
 

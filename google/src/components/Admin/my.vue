@@ -77,6 +77,19 @@ export default{
           path: `/change`,
         })
         }
+         if(num==2){
+          this.$router.push({
+          path: `/email`,
+        })
+        } if(num==3){
+          this.$router.push({
+          path: `/about`,
+        })
+        } if(num==4){
+          this.$router.push({
+          path: `/set`,
+        })
+        }
       }
    }
 }
