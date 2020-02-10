@@ -1,67 +1,25 @@
 <template>
-  <div id="my">
+  <div id="admin">
     <div class="top">
      <div class="left">
       <svg class="icon" aria-hidden="true">
-        <use xlink:href="#iconsaoyisao"></use>
+        <use xlink:href="#iconguanliyuan"></use>
       </svg>
      </div>
     <div class="right">
       <svg class="icon" aria-hidden="true">
-        <use xlink:href="#iconhuabanfuben-copy"></use>
+        <use xlink:href="#iconxiaoxi"></use>
       </svg>
      </div>
-    </div>
-    <router-link  to="/data">
-      <div class="touxiang">
-       <div>
-          <van-image
-          round
-          width="10rem"
-          height="10rem"
-          src="https://img.yzcdn.cn/vant/cat.jpeg"
-        />
-       </div>
-        <div class="info">
-          <div>工号：{{worknum}}</div>
-          <div>职位：{{position}}</div>
-          <div>{{name}}老师</div>
-        </div>
-      </div>
-    </router-link>
-    <div class="button">
-        <div @click="change(1)">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#iconshouji-copy"></use>
-          </svg>1555****000
-        </div>
-        <div @click="change(2)">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#iconyouxiangbangding"></use>
-          </svg>Mag****@gmail.com
-        </div>
-        <div @click="change(3)">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icongengduo"></use>
-          </svg>关于
-        </div>
-        <div @click="change(4)">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#iconshezhi2"></use>
-          </svg>设置
-        </div>   
     </div>
     <router-view/>
   </div>
 </template>
 <script>
 export default{
-  name:"my",
+  name:"admin",
   data(){
     return{
-      worknum:2700001111111,
-      position:'教务处主任',
-      name:"古飞扬"
     }
   },
   components:{
@@ -95,7 +53,7 @@ export default{
 }
 </script>
 <style lang="scss">
-#my{
+#admin{
   text-align: center;
   background: #FFFDF9;
   width: 100%;

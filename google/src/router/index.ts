@@ -30,11 +30,28 @@ const routes = [
     component: () => import("@/components/scanning/index.vue")
   },
   {
-    path: "/testScan",
+    path: "/email",
+    name: "email",
+    component: () => import("@/components/Admin/email.vue")
+  },
+  {
+    path: "/about",
+    name: "about",
+    component: () => import("@/components/Admin/about.vue")
+  },
+  {
+    path: "/set",
+    name: "set",
+    component: () => import("@/components/Admin/set.vue")
+  },
+   { path: "/testScan",
     name: "testScan",
     component: () => import("@/components/scanning/testScan.vue")
+  },
+  { path: "/admin",
+    name: "admin",
+    component: () => import("@/components/Admin/admin.vue")
   }
-
  
 ]
 
