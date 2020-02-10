@@ -1,6 +1,6 @@
 <template>
   <div id="change">
-    <div v-show="!change"> 
+    <div v-show="!change1"> 
       <div class="top1">
      <div class="left" @click="back"> 
          上一步
@@ -19,7 +19,7 @@
     </div>
     </div>
 
-    <div v-show="change"> 
+    <div v-show="change1"> 
       <div class="top">
      <div class="left">
       <router-link to="/my">
@@ -54,7 +54,7 @@ export default{
      newphonenum:"178****000",
      code:"",
      show: true,
-     change:true,
+     change1:true,
      count: '',
      timer: null,
     }
@@ -87,7 +87,7 @@ export default{
       }
     },
     back(){
-      this.change = !this.change;
+      this.change1 = !this.change1;
     },
     end(){
      this.$toast("修改成功");
@@ -100,6 +100,7 @@ export default{
 </script>
 <style lang="scss">
 #change{
+  text-align: center;
   background: #FFFDF9;
   width: 100%;
   height: 100%;
