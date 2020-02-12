@@ -26,7 +26,7 @@ export default {
 <style lang="scss">
 #back_bar {
     position: fixed;
-    width: 100%;
+    width: 100vw;
     height: 3em;
     font-size: 1em;
     border-bottom: 1px solid rgb(227, 227, 227);
