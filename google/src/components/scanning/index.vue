@@ -3,12 +3,43 @@
         <backbar :backbar = backbar></backbar>
         <div class="scan_preview">
             <video id="videoCamera" width="100%" height="100%" autoplay ref="videoCamera" ></video>
-            <div class="preview_mask"></div>
+            <div class="preview_mask">
+                <div class="scan_box">
+                    <div class="top">
+                        <svg class="icon top_left" aria-hidden="true">
+                            <use xlink:href="#icontl"></use>
+                        </svg>
+                        <svg class="icon top_right" aria-hidden="true">
+                            <use xlink:href="#icontr"></use>
+                        </svg>
+                    </div>
+
+                    <div class="center">
+                        <transition name="scan-linear">
+                            <div class="scan_linear" v-show="scan_linear_animate"></div>
+                        </transition>
+                    </div>
+                    
+                    <div class="bottom">
+                        <svg class="icon bottom_left" aria-hidden="true">
+                            <use xlink:href="#iconbl"></use>
+                        </svg>
+                        <svg class="icon bottom_right" aria-hidden="true">
+                            <use xlink:href="#iconbr"></use>
+                        </svg>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 <script>
 import backbar from '@/components/common/backbar'
+
+import adapter from 'webrtc-adapter';
+
+import { BrowserMultiFormatReader } from '@zxing/library';
+
 export default {
     name: 'scanning',
     components: { backbar },
@@ -17,40 +48,48 @@ export default {
             backbar: {
                 link: '/',
                 title: '扫一扫',
-            }
+            },
+            codeReader: new BrowserMultiFormatReader(),
+            textContent: undefined,
+            scan_linear_animate: true,
         }
     },
-    mounted() {
-        this.getCompetence();
-    },
-    methods: {
-        // 启动设备
-        getCompetence() {
-            let video = this.$refs.videoCamera;
+    async created () {
+        this.codeReader.getVideoInputDevices()
+        .then((videoInputDevices) => {
+            const selectedDeviceId = videoInputDevices[1].deviceId;
 
-            // 媒体兼容处理
-            navigator.mediaDevices.getUserMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia;
-            
-            if(navigator.mediaDevices.getUserMedia) {
-                // Not adding `{ audio: true }` since we only want video now
-                navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
-                    //video.src = window.URL.createObjectURL(stream);
-                    video.srcObject = stream;
-                    video.play();
-                });
+            this.codeReader.decodeFromInputVideoDeviceContinuously(selectedDeviceId, 'videoCamera', (result, err) => {
+            if (result) {
+                console.log(result);
             }
-        },
-    }
+            if (err && !(err)) {
+                console.error(err);
+            }
+            });
+            console.log(`Started continous decode from camera with id ${selectedDeviceId}`);
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+    },
+    mounted() {
+        setInterval(()=>{
+            this.scan_linear_animate = !this.scan_linear_animate;
+        },3000);
+    },
+    
 }
 </script>
 <style lang="scss">
 .scanning {
     width: 100%;
     height: 100vh;
+    overflow: hidden;
     background-color: rgb(249, 247, 247);
     .scan_preview {
-        height: 100%;
         position: relative;
+        height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -63,26 +102,64 @@ export default {
             z-index: 2;
         }
         .preview_mask {
-            width: 100%;
+            position: relative;
+            width: 100vw;
             height: 100vh;
-            background-color: rgba(0, 0, 0, 0.5);
             z-index: 4;
+            .scan_box {
+                position: absolute;
+                width: 60vw;
+                height: 60vw;
+                border: solid rgba(0, 0, 0, 0.4);
+                border-width: 35vh 20vw 45vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                .top,.bottom {
+                    font-size: 3ex;
+                    display: flex;
+                    justify-content: space-between;
+                    .top_left {
+                        margin: -1.2ex 0 0 -1.2ex;
+                    }
+                    .top_right {
+                        margin: -1.2ex -1.2ex 0 0;
+                    }
+                    .bottom_left {
+                        margin: 0 0 -1.2ex -1.2ex;
+                    }
+                    .bottom_right {
+                        margin: 0 -1.2ex -1.2ex 0;
+                    }
+                }
+                .center {
+                    position: absolute;
+                    width: 60vw;
+                    height: 60vw;
+                    overflow: hidden;
+
+                    .scan_linear {
+                        position: relative;
+                        width: 60vw;
+                        height: 15vw;
+                        top: -15vw;
+                        background-image: linear-gradient(rgba(235,122,101,0), #e66465);
+                    }
+
+                    // 扫一扫动效
+                    .scan-linear-enter-active {
+                        transition: all ;
+                    }
+                    .scan-linear-leave-active {
+                        transition: all 3s ease;
+                    }
+                    .scan-linear-enter, .scan-linear-leave-to {
+                        transform: translateY(75vw);
+                    }
+                }
+            }
         }
-        // .prev_mask_cent {
-        //     position: relative;
-        //     height: 34vh;
-        //     border: 1px solid red;
-        //     display: flex;
-        //     justify-content: space-between;
-        //     .cent_mask {
-        //         border: 1px solid black;
-        //         background-color: rgba(0, 0, 0, 0.5);
-        //     }
-        //     .scan_box {
-        //         width: 34vh;
-        //         border: 1px solid red;
-        //     }
-        // }
+       
     }
 }
 </style>

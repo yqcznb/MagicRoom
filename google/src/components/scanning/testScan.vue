@@ -2,11 +2,10 @@
   <div class="v-body">
     {{textContent}}
     <video
-      ref="video"
-      id="video"
-      width="300"
-      height="200"
-      style="border: 1px solid gray"
+      ref="videov"
+      id="videov"
+      width="100%"
+      height="100%"
     ></video>
   </div>
 </template>
@@ -29,7 +28,7 @@ export default {
       .then((videoInputDevices) => {
         const selectedDeviceId = videoInputDevices[0].deviceId;
 
-        this.codeReader.decodeFromInputVideoDeviceContinuously(selectedDeviceId, 'video', (result, err) => {
+        this.codeReader.decodeFromInputVideoDeviceContinuously(selectedDeviceId, 'videov', (result, err) => {
           if (result) {
             console.log(result);
             this.textContent = result.text;
