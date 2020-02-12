@@ -17,7 +17,7 @@ module.exports = {
         //yyhost: "192.168.1.106",
         //  host: "169.254.173.16",
         host:"localhost",
-      
+
         //真机测试端口
         port: 8082,
     
