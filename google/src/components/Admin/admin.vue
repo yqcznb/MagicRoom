@@ -1,29 +1,20 @@
 <template>
   <div id="admin">
-    <div class="top">
-     <div class="left">
-      <svg class="icon" aria-hidden="true">
-        <use xlink:href="#iconguanliyuan"></use>
-      </svg>
-     </div>
-    <div class="right">
-      <svg class="icon" aria-hidden="true">
-        <use xlink:href="#iconxiaoxi"></use>
-      </svg>
-     </div>
-    </div>
+        <Common :touxiang="touxiang"></Common>
     <router-view/>
   </div>
 </template>
 <script>
+import Common from '../Admin/common'
 export default{
   name:"admin",
   data(){
     return{
+      touxiang:"1"
     }
   },
   components:{
-         
+    Common
    },
    mounted(){
     
