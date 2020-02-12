@@ -1,33 +1,23 @@
 <template>
     <div id="main">
-        <div class="left">
-            
+        <div class="top">
+            <div class="left">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#iconlaoshi"></use>
+                </svg>
+            </div>
+            <div class="right">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#iconxiaoxi"></use>
+                </svg>
+            </div>
         </div>
-        <div class="middle">
-            <span>早</span>
-            <span>正一</span>
-            <span>正二</span>
-            <span>正三</span>
-            <span>正四</span>
-            <span>正五</span>
-            <span>正六</span>
-            <span>正七</span>
-            <span>正八</span>
-            <span>晚一</span>
-            <span>晚二</span>
-        </div>
-        <div class="right">
-            <span>早</span>
-            <span>正一</span>
-            <span>正二</span>
-            <span>正三</span>
-            <span>正四</span>
-            <span>正五</span>
-            <span>正六</span>
-            <span>正七</span>
-            <span>正八</span>
-            <span>晚一</span>
-            <span>晚二</span>
+        <div class="scroll">
+            <span>第一周</span>
+            <span>第一周</span>
+            <span>第一周</span>
+            <span>第一周</span>
+            <span>第一周</span>
         </div>
     </div>
 </template>
@@ -41,60 +31,31 @@ export default {
 <style lang="scss" scoped>
     *{margin: 0;padding: 0;list-style: none;}
     #main{
-        width: 20%;
-        height: 300px;
-        background-color: rgb(255, 251, 251);
-        box-shadow: 3px 3px 3px 3px rgb(152, 148, 148);
-        display: flex;
-        justify-content: flex-start;
-        .left{
-            width: 3px;
-            height: 90%;
-            background-color: rgb(241, 72, 72);
-            margin: 5% 0 0 10%;
-        }
-        .middle{
-            width: 15%;
-            height: 90%;
-            background-color: rgb(195, 235, 192);
-            margin: 5% 0 0 5%;
-            span{
-                display: inline-block;
-                margin-bottom: 10%;
+        text-align: center;
+        background: #FFFDF9;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        .top{
+            overflow: hidden;   //清除浮动
+            border-bottom: 0.1em solid rgb(236, 235, 235);
+            .left{
+            float: left;
+            margin: 0.5em;
             }
-            span:nth-child(1){
-                margin-bottom: 30%;
-            }
-            span:nth-child(5){
-                margin-bottom: 40%;
-            }
-            span:nth-child(9){
-                margin-bottom: 30%;
+            .right{
+            float: right;
+            margin: 0.5em;
             }
         }
-        .right{
-           width: 60%;
-           height: 90%;
-           background-color: rgb(195, 235, 192);
-           margin: 5% 0 0 2%;
-           span{
-               display: block;
-               width: 90%;
-               height: 5%;
-               line-height: 80%;
-               background-color: rgb(43, 93, 193);
-               margin: 0 0 6% 5%;
-               border-radius: 10px;
-           } 
-           span:nth-child(1){
-                margin-bottom: 12%;
-            }
-            span:nth-child(5){
-                margin-bottom: 15%;
-            }
-            span:nth-child(9){
-                margin-bottom: 10%;
-            }
+        .scroll{
+            height: 2em;
+            width: 100%;
+            border-bottom: 0.1em solid rgb(236, 235, 235);
+            line-height: 2em;
+            display: flex;
+            justify-content: space-around;
+            overflow: scroll;
         }
     }
 </style>

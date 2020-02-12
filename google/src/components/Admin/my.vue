@@ -7,7 +7,7 @@
       </svg>
      </div>
     <div class="right">
-      <svg class="icon" aria-hidden="true">
+      <svg class="icon" aria-hidden="true" @click="back">
         <use xlink:href="#iconhuabanfuben-copy"></use>
       </svg>
      </div>
@@ -23,9 +23,9 @@
         />
        </div>
         <div class="info">
-          <div>工号：{{worknum}}</div>
-          <div>职位：{{position}}</div>
-          <div>{{name}}老师</div>
+          <div>{{this.$route.params.one}}：{{worknum}}</div>
+          <div>{{this.$route.params.two}}：{{position}}</div>
+          <div>{{name}}{{this.$route.params.three}}</div>
         </div>
       </div>
     </router-link>
@@ -61,14 +61,15 @@ export default{
     return{
       worknum:2700001111111,
       position:'教务处主任',
-      name:"古飞扬"
+      name:"古飞扬",
+    
     }
   },
   components:{
          
    },
    mounted(){
-    
+
    },
    methods:{
       change(num){
@@ -90,6 +91,9 @@ export default{
           path: `/set`,
         })
         }
+      },
+      back(){
+          this.$router.go(-1);
       }
    }
 }

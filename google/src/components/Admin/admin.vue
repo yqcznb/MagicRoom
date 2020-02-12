@@ -1,29 +1,20 @@
 <template>
   <div id="admin">
-    <div class="top">
-     <div class="left">
-      <svg class="icon" aria-hidden="true">
-        <use xlink:href="#iconguanliyuan"></use>
-      </svg>
-     </div>
-    <div class="right">
-      <svg class="icon" aria-hidden="true">
-        <use xlink:href="#iconxiaoxi"></use>
-      </svg>
-     </div>
-    </div>
+        <Common :touxiang="touxiang"></Common>
     <router-view/>
   </div>
 </template>
 <script>
+import Common from '../Admin/common'
 export default{
   name:"admin",
   data(){
     return{
+      touxiang:"1"
     }
   },
   components:{
-         
+    Common
    },
    mounted(){
     
@@ -55,55 +46,10 @@ export default{
 <style lang="scss">
 #admin{
   text-align: center;
-  background: #FFFDF9;
+  background: #F9F7F7;
   width: 100%;
   height: 100%;
   position: fixed;
-  .top{
-    margin-top: 0.5em;
-    .left{
-    float: left;
-    margin-left: 0.5em;
-    }
-    .right{
-      float: right;
-      margin-right: 0.5em;
-    }
-  }
-  .touxiang{
-    color:black;
-    margin-top: 3em;
-    .info{
-      margin-top: 1.5em;
-      div{
-       text-align: left;
-       padding: 0.3em 2em;
-       font-weight: bold;
-     }
-    }
-  }
-  .button{
-    div{
-      border-top: 1px solid #eee;
-      padding:0.5em 0;
-      display: flex;
-      flex-direction: row;
-      font-weight: bold;
-      align-items: center;
-      svg{
-        margin: 0 2em;
-      }
-    }
-    div:last-child{
-      border-bottom: 1px solid #eee;
-    }
-    div:first-child{
-      margin-top: 1.5em;
-      box-shadow:0px -2px  2px 2px #eee;
-      border-top: 1px solid #eee;
-
-    }
-    
-  }
+  
 }
 </style>
