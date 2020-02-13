@@ -14,6 +14,8 @@
                         </svg>
                     </div>
 
+                    <span class="tips">请对准需要识别的二维码</span>
+
                     <div class="center">
                         <transition name="scan-linear">
                             <div class="scan_linear" v-show="scan_linear_animate"></div>
@@ -34,10 +36,9 @@
     </div>
 </template>
 <script>
+import { Dialog } from 'vant';
 import backbar from '@/components/common/backbar'
-
 import adapter from 'webrtc-adapter';
-
 import { BrowserMultiFormatReader } from '@zxing/library';
 
 export default {
@@ -46,34 +47,53 @@ export default {
     data() {
         return {
             backbar: {
-                link: '/',
-                title: '扫一扫',
+                link: this.$route.params.link,
+                title: this.$route.params.title,
             },
             codeReader: new BrowserMultiFormatReader(),
             textContent: undefined,
             scan_linear_animate: true,
         }
     },
-    async created () {
+    mounted() {
+        // 扫描
         this.codeReader.getVideoInputDevices()
         .then((videoInputDevices) => {
-            const selectedDeviceId = videoInputDevices[1].deviceId;
+            let self = this;
 
-            this.codeReader.decodeFromInputVideoDeviceContinuously(selectedDeviceId, 'videoCamera', (result, err) => {
-            if (result) {
-                console.log(result);
-            }
-            if (err && !(err)) {
-                console.error(err);
-            }
+            const selectedDeviceId = videoInputDevices[0].deviceId;
+
+            self.codeReader.decodeFromInputVideoDeviceContinuously(selectedDeviceId, 'videoCamera', (result, err) => {
+                const identify = self.$store.state.stu_identify;
+                if (result) {
+                    console.log(result);
+                    if(identify) {
+                        Dialog.confirm({
+                            title: '提示',
+                            message: '您是当前课程课代表，是否一键解锁教室设备',
+                            cancelButtonText: '稍后',
+                        }).then(() => {
+                            // on confirm
+                        }).catch(() => {
+                            // on cancel
+                        });
+                    }
+                    
+                }
+                if (err && !(err)) {
+                    console.error(err);
+                }
+
+                
             });
+            
             console.log(`Started continous decode from camera with id ${selectedDeviceId}`);
         })
         .catch((err) => {
             console.error(err);
         });
-    },
-    mounted() {
+
+        // 扫描动效
         setInterval(()=>{
             this.scan_linear_animate = !this.scan_linear_animate;
         },3000);
@@ -132,12 +152,22 @@ export default {
                         margin: 0 -1.2ex -1.2ex 0;
                     }
                 }
+                .tips {
+                    position: absolute;
+                    top: -3em;
+                    left: 0;
+                    right: 0;
+                    margin: 0 auto;
+                    font-size: 14px;
+                    color: #fff;
+                    letter-spacing: 1px;                    
+                }
                 .center {
                     position: absolute;
                     width: 60vw;
                     height: 60vw;
                     overflow: hidden;
-
+                    
                     .scan_linear {
                         position: relative;
                         width: 60vw;
