@@ -2,7 +2,7 @@
   <div id="my">
     <div class="top">
      <div class="left">
-      <svg class="icon" aria-hidden="true">
+      <svg class="icon" aria-hidden="true" @click="()=>{this.$router.replace({ name: 'scanning', params: { link: '/my', title: '扫一扫' } })}">
         <use xlink:href="#iconsaoyisao"></use>
       </svg>
      </div>
