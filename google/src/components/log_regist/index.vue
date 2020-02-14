@@ -1,5 +1,6 @@
 <template>
-    <div class="log_regist">
+    <div class="log_regist"
+     @touchstart="beforeAct" @touchmove.prevent="inAct" @touchend="endAct">
         <img :src="backimg_src" alt="" class="login_backimg" ref="login_backimg">
         <div class="content">
             <img v-lazy="logo" class="cont_logo">
@@ -8,12 +9,38 @@
                     <use xlink:href="#iconsyb"></use>
                 </svg>
                 <div class="cont_input_box">
-                    <div class="cont_input_msg" @click="()=>{this.iden_popup_show = true}">
-                        <span v-text="iden_text_choose"></span> <img v-lazy="identify" v-show="!ico_show">
-                        <svg class="icon" aria-hidden="true" v-show="ico_show">
-                            <use :xlink:href="iden_ico_choose"></use>
-                        </svg>
-                    </div>
+
+                    <!-- 身份选择 -->
+                    <transition
+                     enter-active-class="animated fadeInLeft" leave-active-class="animated fadeOutLeft">
+                        <div class="cont_input_msg" @click="()=>{this.iden_popup_show = true}" v-show="iden_show">
+                            <span v-text="iden_text_choose"></span> <img v-lazy="identify" v-show="!ico_show">
+                            <svg class="icon" aria-hidden="true" v-show="ico_show">
+                                <use :xlink:href="iden_ico_choose"></use>
+                            </svg>
+                        </div>
+                    </transition>
+
+                    <!-- 输入手机号 -->
+                    <transition
+                     :enter-active-class="enterClass" :leave-active-class="leaveClass">
+                        <div class="cont_input_msg"  v-show="phone_show">
+                            <span v-text="phone_text"></span> 
+                            <svg class="icon" aria-hidden="true">
+                                <use xlink:href="#iconshouji"></use>
+                            </svg>
+                        </div>
+                    </transition>
+
+                    <!-- 验证码 -->
+                    <transition
+                     enter-active-class="animated fadeInRight" leave-active-class="animated fadeOutRight">
+                        <div class="cont_input_msg"  v-show="verify_show">
+                            <span v-text="verify_text"></span> <span v-text="verify_btn_text"></span>
+                        </div>
+                    </transition>
+
+                    <!-- 当前位置 -->
                     <div class="state_bar">
                         <div v-for="(item, i) in state_list" :key="i" :class="item"></div>
                     </div>
@@ -60,8 +87,27 @@ export default {
             iden_ico: [ '#iconlaoshi', '#iconxuesheng', '#iconguanliyuan' ],              //ico列表
             ico_show: false,                  //被选中后显示ico
             iden_text_choose: '点击选择身份',  //被选中身份值
-            iden_ico_choose: '#iconxuesheng'  //被选中ico值
+            iden_ico_choose: '#iconxuesheng', //被选中ico值
 
+            // 状态显示列表
+            iden_show: true,
+            phone_show: false,
+            verify_show: false,
+
+            // 手机号动效
+            enterClass: 'animated fadeInRight',
+            leaveClass: 'animated fadeOutLeft',
+
+            phone_text: '请输入手机号',
+            // 点击获取验证码
+            verify_text: '请输入验证码',
+            verify_btn_text: '点击获取',
+
+            // touch坐标
+            beforeX: 0,
+            beforeY: 0,
+            endX: 0,
+            endY: 0,
         }
     },
     mounted() {
@@ -86,7 +132,9 @@ export default {
             }
         },1000);
 
-        this.$refs.syb.style.visibility = 'hidden';
+        if( this.iden_show ) {
+            this.$refs.syb.style.visibility = 'hidden';
+        }
     },
     watch: {
         // 背景图片自适应
@@ -102,6 +150,7 @@ export default {
                 backimg_dom.style.width = '100%';
             }
         },
+        
     },
     methods: {
         // 背景图片加载
@@ -135,12 +184,98 @@ export default {
         // 取消选择
         choose_iden_cancel() {
             this.iden_popup_show = false;
+        },
+        // touch操作
+        beforeAct() {
+            let touch;
+            if(event.touches){
+                touch = event.touches[0];
+            }else {
+                touch = event;
+            }
+            this.endX = this.beforeX = parseInt(touch.clientX);
+            this.endY = this.beforeY = parseInt(touch.clientY);
+        },
+        inAct() {
+            let touch;
+            if(event.touches){
+                touch = event.touches[0];
+            }else {
+                touch = event;
+            }
+            this.endX = parseInt(touch.clientX);
+            this.endY = parseInt(touch.clientY);
+        },
+        endAct() {
+            let resX = this.endX-this.beforeX;
+            let resY = this.endY-this.beforeY;
+
+            if( Math.abs(resY) < 100 ) {
+                if( resX > 0 ) {   // 向右滑
+                    if( this.iden_show ) {   // 当前为选择身份状态
+                        this.$refs.syb.style.visibility = 'hidden';
+                        this.$refs.xyb.style.visibility = 'visible';
+                        console.log("当前为选择身份状态");
+                    }
+                    else if( this.phone_show ) {   // 当前为输入手机号状态
+                        this.$refs.syb.style.visibility = 'hidden';
+                        this.$refs.xyb.style.visibility = 'visible';
+
+                        // 更改animate leaveClass
+                        this.leaveClass = 'animated fadeOutRight';
+
+                        this.phone_show = false;
+                        this.iden_show = true;
+                    }
+                    else if( this.verify_show ) {   // 当前为验证码状态
+                        this.$refs.syb.style.visibility = 'visible';
+                        this.$refs.xyb.style.visibility = 'visible';
+                        
+                        // 更改animate leaveClass
+                        this.enterClass = 'animated fadeInLeft';
+
+                        this.verify_show = false;
+                        this.phone_show = true;
+                    }
+                }
+                else if( resX < 0 ) {   // 向左滑
+                    if( this.iden_show ) {   // 当前为选择身份状态
+                        // 切换为输入手机号状态
+                        this.$refs.syb.style.visibility = 'visible';
+                        this.$refs.xyb.style.visibility = 'visible';
+
+                        // 更改animate class
+                        this.enterClass = 'animated fadeInRight';
+
+                        this.iden_show = false;
+                        this.phone_show = true;
+                    }
+                    else if( this.phone_show ) {   // 当前为输入手机号状态
+                        this.$refs.syb.style.visibility = 'visible';
+                        this.$refs.xyb.style.visibility = 'hidden';
+
+                        // 更改animate leaveClass
+                        this.leaveClass = 'animated fadeOutLeft';
+
+                        this.phone_show = false;
+                        this.verify_show = true;
+                    }
+                    else if( this.verify_show ) {   // 当前为验证码状态
+                        this.$refs.syb.style.visibility = 'visible';
+                        this.$refs.xyb.style.visibility = 'hidden';
+                        console.log("当前为验证码状态");
+                    }
+                }
+            }
+            // console.log(`X: ${this.endX-this.beforeX}`);
+            // console.log(`Y: ${this.endY-this.beforeY}`);
         }
     }
 }
 </script>
 <style lang="scss">
 .log_regist {
+    height: 100vh;
     overflow: hidden;
     .login_backimg {
         position: fixed;
