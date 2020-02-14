@@ -4,7 +4,7 @@
         <div class="content">
             <img v-lazy="logo" class="cont_logo">
             <div class="cont_input">
-                <svg class="icon" aria-hidden="true">
+                <svg class="icon" ref="syb" aria-hidden="true">
                     <use xlink:href="#iconsyb"></use>
                 </svg>
                 <div class="cont_input_box">
@@ -18,7 +18,7 @@
                         <div v-for="(item, i) in state_list" :key="i" :class="item"></div>
                     </div>
                 </div>
-                <svg class="icon" aria-hidden="true">
+                <svg class="icon" ref="xyb" aria-hidden="true">
                     <use xlink:href="#iconxyb"></use>
                 </svg>
             </div>
@@ -85,6 +85,8 @@ export default {
                 this.$refs.login_backimg.style.height = '100%';
             }
         },1000);
+
+        this.$refs.syb.style.visibility = 'hidden';
     },
     watch: {
         // 背景图片自适应
