@@ -61,7 +61,7 @@ export default {
         .then((videoInputDevices) => {
             let self = this;
 
-            const selectedDeviceId = videoInputDevices[0].deviceId;
+            const selectedDeviceId = videoInputDevices[1].deviceId;
 
             self.codeReader.decodeFromInputVideoDeviceContinuously(selectedDeviceId, 'videoCamera', (result, err) => {
                 const identify = self.$store.state.stu_identify;
