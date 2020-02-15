@@ -242,14 +242,15 @@ export default {
             // console.log(`X:${resX},Y:${resY}`);
             this.change_state(resX, resY);
         },
+        // 点击右侧按钮，模拟左滑
         right_state() {
             this.change_state(-100, 0);
         },
+        // 点击左侧按钮，模拟右滑
         left_state() {
             this.change_state(100, 0);
         },
         change_state(resX, resY) {
-
             if( Math.abs(resY) < 100 ) {
                 if( resX > 0 ) {   // 向右滑
                     if( this.iden_show ) {   // 当前为选择身份状态
@@ -316,33 +317,41 @@ export default {
                 }
             }
         },
-        phone_fun() {
+        phone_fun() {     // 展示手机号键盘
             if(this.phone_num == '请输入手机号') {
                 this.phone_num = '';
             }
             this.phone_keyboard_show = true;
         },
-        verify_fun() {
+        verify_fun() {    // 展示验证码键盘
             if(this.verify_num == '请输入验证码') {
                 this.verify_num = '';
             }
             this.verify_keyboard_show = true;
         },
-        verify_send() {
+        verify_send() {   // 通过verify_flag避免重复获取短信验证码
             if(this.verify_flag) {
                 this.verify_flag = false;
                 let self = this;
                 let counting = setInterval(counting_fun,1000);
                 function counting_fun() {
+                    // 发送短信验证码dom
                     let verify_btn = self.$refs.verify_btn.style;
+
                     if(self.counting_num-- <= 0) {
                         clearInterval(counting);
+                        // 禁止重复获取短信验证码
                         self.verify_flag = true;
+
+                        // 修改按钮状态颜色
                         verify_btn.borderColor = verify_btn.color = '#e84f4f';
+                        
                         self.verify_btn_text = '点击获取';
                     }
                     else {
+                        // 修改按钮状态颜色
                         verify_btn.borderColor = verify_btn.color = '#aeaeae';
+                        // 按钮计时
                         self.verify_btn_text = `${self.counting_num}s`;
                     }
                 }
