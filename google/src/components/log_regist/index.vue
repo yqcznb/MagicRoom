@@ -5,47 +5,46 @@
         <div class="content">
             <img v-lazy="logo" class="cont_logo">
             <div class="cont_input">
-                <svg class="icon" ref="syb" aria-hidden="true">
+                <svg class="icon" ref="syb" aria-hidden="true" @click="left_state">
                     <use xlink:href="#iconsyb"></use>
                 </svg>
                 <div class="cont_input_box">
+                    <div class="animate_box">
+                        <!-- 身份选择 -->
+                        <transition
+                        enter-active-class="animated fadeInLeft" leave-active-class="animated fadeOutLeft">
+                            <div class="cont_input_msg" @click="()=>{this.iden_popup_show = true}" v-show="iden_show">
+                                <span v-text="iden_text_choose"></span> <img v-lazy="identify" v-show="!ico_show">
+                                <svg class="icon" aria-hidden="true" v-show="ico_show">
+                                    <use :xlink:href="iden_ico_choose"></use>
+                                </svg>
+                            </div>
+                        </transition>
 
-                    <!-- 身份选择 -->
-                    <transition
-                     enter-active-class="animated fadeInLeft" leave-active-class="animated fadeOutLeft">
-                        <div class="cont_input_msg" @click="()=>{this.iden_popup_show = true}" v-show="iden_show">
-                            <span v-text="iden_text_choose"></span> <img v-lazy="identify" v-show="!ico_show">
-                            <svg class="icon" aria-hidden="true" v-show="ico_show">
-                                <use :xlink:href="iden_ico_choose"></use>
-                            </svg>
-                        </div>
-                    </transition>
+                        <!-- 输入手机号 -->
+                        <transition
+                        :enter-active-class="enterClass" :leave-active-class="leaveClass">
+                            <div class="cont_input_msg"  v-show="phone_show" @click="phone_fun">
+                                <span v-text="phone_num"></span> 
+                                <img v-lazy="phone_logo">
+                            </div>
+                        </transition>
 
-                    <!-- 输入手机号 -->
-                    <transition
-                     :enter-active-class="enterClass" :leave-active-class="leaveClass">
-                        <div class="cont_input_msg"  v-show="phone_show">
-                            <span v-text="phone_text"></span> 
-                            <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#iconshouji"></use>
-                            </svg>
-                        </div>
-                    </transition>
-
-                    <!-- 验证码 -->
-                    <transition
-                     enter-active-class="animated fadeInRight" leave-active-class="animated fadeOutRight">
-                        <div class="cont_input_msg"  v-show="verify_show">
-                            <span v-text="verify_text"></span> <span v-text="verify_btn_text"></span>
-                        </div>
-                    </transition>
+                        <!-- 验证码 -->
+                        <transition
+                        enter-active-class="animated fadeInRight" leave-active-class="animated fadeOutRight">
+                            <div class="cont_input_msg verify_input" v-show="verify_show">
+                                <span class="verify_text" ref="verify_text" v-text="verify_num" @click="verify_fun"></span> <span class="verify_btn" ref="verify_btn" v-text="verify_btn_text" @click="verify_send"></span>
+                            </div>
+                        </transition>
+                    </div>
 
                     <!-- 当前位置 -->
                     <div class="state_bar">
                         <div v-for="(item, i) in state_list" :key="i" :class="item"></div>
                     </div>
                 </div>
-                <svg class="icon" ref="xyb" aria-hidden="true">
+                <svg class="icon" ref="xyb" aria-hidden="true" @click="right_state">
                     <use xlink:href="#iconxyb"></use>
                 </svg>
             </div>
@@ -60,7 +59,24 @@
              @confirm = "choose_iden_conf"
              @cancel = "choose_iden_cancel"/>
         </van-popup>
-        
+        <!-- 手机号键盘 -->
+        <van-number-keyboard
+         v-model="phone_num"
+         theme="custom"
+         extra-key="."
+         close-button-text="完成"
+         :show="phone_keyboard_show"
+         :maxlength="11"
+         @blur="phone_keyboard_show = false"/>
+         <!-- 验证码键盘 -->
+         <van-number-keyboard
+         v-model="verify_num"
+         theme="custom"
+         extra-key="."
+         close-button-text="完成"
+         :show="verify_keyboard_show"
+         :maxlength="6"
+         @blur="verify_keyboard_show = false"/>
     </div>
 </template>
 <script>
@@ -79,7 +95,11 @@ export default {
 
             logo: 'https://upload-images.jianshu.io/upload_images/19325457-a8a3cea6c0e07514.png',
             identify: 'https://upload-images.jianshu.io/upload_images/19325457-cf60014b22f51e1c.png?imageMogr2/auto-orient/strip|imageView2/2/format/webp',
+            phone_logo: 'https://upload-images.jianshu.io/upload_images/19325457-e8d00c86bb495ce2.png?imageMogr2/auto-orient/strip|imageView2/2/format/webp',
             state_list: [ 'active', 'unselect', 'unselect'],
+            state_one: [ 'active', 'unselect', 'unselect'],
+            state_two: [ 'unselect', 'active', 'unselect'],
+            state_three: [ 'unselect', 'unselect', 'active'],
 
             // 弹出层
             iden_popup_show: false,
@@ -98,16 +118,26 @@ export default {
             enterClass: 'animated fadeInRight',
             leaveClass: 'animated fadeOutLeft',
 
-            phone_text: '请输入手机号',
             // 点击获取验证码
             verify_text: '请输入验证码',
             verify_btn_text: '点击获取',
+            verify_flag: true,
 
             // touch坐标
             beforeX: 0,
             beforeY: 0,
             endX: 0,
             endY: 0,
+
+            // 手机号键盘
+            phone_num: '请输入手机号',
+            phone_keyboard_show: false,
+
+            // 验证码键盘
+            verify_num: '请输入验证码',
+            verify_keyboard_show: false,
+            counting_num: 60,
+            
         }
     },
     mounted() {
@@ -209,6 +239,16 @@ export default {
         endAct() {
             let resX = this.endX-this.beforeX;
             let resY = this.endY-this.beforeY;
+            // console.log(`X:${resX},Y:${resY}`);
+            this.change_state(resX, resY);
+        },
+        right_state() {
+            this.change_state(-100, 0);
+        },
+        left_state() {
+            this.change_state(100, 0);
+        },
+        change_state(resX, resY) {
 
             if( Math.abs(resY) < 100 ) {
                 if( resX > 0 ) {   // 向右滑
@@ -224,6 +264,8 @@ export default {
                         // 更改animate leaveClass
                         this.leaveClass = 'animated fadeOutRight';
 
+                        this.state_list = this.state_one;
+
                         this.phone_show = false;
                         this.iden_show = true;
                     }
@@ -233,6 +275,8 @@ export default {
                         
                         // 更改animate leaveClass
                         this.enterClass = 'animated fadeInLeft';
+
+                        this.state_list = this.state_two;
 
                         this.verify_show = false;
                         this.phone_show = true;
@@ -247,6 +291,8 @@ export default {
                         // 更改animate class
                         this.enterClass = 'animated fadeInRight';
 
+                        this.state_list = this.state_two;
+
                         this.iden_show = false;
                         this.phone_show = true;
                     }
@@ -256,6 +302,8 @@ export default {
 
                         // 更改animate leaveClass
                         this.leaveClass = 'animated fadeOutLeft';
+
+                        this.state_list = this.state_three;
 
                         this.phone_show = false;
                         this.verify_show = true;
@@ -267,8 +315,41 @@ export default {
                     }
                 }
             }
-            // console.log(`X: ${this.endX-this.beforeX}`);
-            // console.log(`Y: ${this.endY-this.beforeY}`);
+        },
+        phone_fun() {
+            if(this.phone_num == '请输入手机号') {
+                this.phone_num = '';
+            }
+            this.phone_keyboard_show = true;
+        },
+        verify_fun() {
+            if(this.verify_num == '请输入验证码') {
+                this.verify_num = '';
+            }
+            this.verify_keyboard_show = true;
+        },
+        verify_send() {
+            if(this.verify_flag) {
+                this.verify_flag = false;
+                let self = this;
+                let counting = setInterval(counting_fun,1000);
+                function counting_fun() {
+                    let verify_btn = self.$refs.verify_btn.style;
+                    if(self.counting_num-- <= 0) {
+                        clearInterval(counting);
+                        self.verify_flag = true;
+                        verify_btn.borderColor = verify_btn.color = '#e84f4f';
+                        self.verify_btn_text = '点击获取';
+                    }
+                    else {
+                        verify_btn.borderColor = verify_btn.color = '#aeaeae';
+                        self.verify_btn_text = `${self.counting_num}s`;
+                    }
+                }
+            }
+        },
+        counting() {
+
         }
     }
 }
@@ -302,38 +383,59 @@ export default {
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
-                .cont_input_msg {
-                    height: 5ex;
-                    background-color: white;
-                    border-radius: 5ex;
-                    padding: 2px;
+                align-items: center;
+                .animate_box {
                     display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    box-shadow: 0 0 5px 5px rgba(255, 255, 255, 0.5);
-                    span {
-                        margin: 0 1em;
-                    }
-                    img {
-                        height: 100%;
-                    }
-                    .icon {
-                        height: 100%;
+                    // justify-content: space-between;
+                    .cont_input_msg {
+                        min-width: 40vw;
+                        height: 5ex;
+                        background-color: white;
+                        border-radius: 5ex;
+                        padding: 2px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        box-shadow: 0 0 5px 5px rgba(255, 255, 255, 0.5);
+                        span {
+                            font-size: 0.9em;
+                            margin: 0 1em;
+                        }
+                        .verify_text {
+                            margin: 0 1ex;
+                            margin-left: 1em;
+                        }
+                        .verify_btn {
+                            width: 11ex;
+                            height: 4.5ex;
+                            margin: 0 0.5ex 0;
+                            line-height: 4.5ex;
+                            color: rgb(232,79,79);
+                            border: 1px solid rgb(232,79,79);
+                            border-radius: 4em;
+                        }
+                        img {
+                            height: 100%;
+                        }
+                        .icon {
+                            height: 100%;
+                        }
                     }
                 }
                 .state_bar {
+                    width: 50vw;
                     margin-top: 2em;
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
                     .active {
-                        width: 30%;
+                        width: 15vw;
                         height: 0.8ex;
                         border-radius: 1ex;
                         background-color: white;
                     }
                     .unselect {
-                        width: 25%;
+                        width: 12vw;
                         height: 0.4ex;
                         border-radius: 1ex;
                         border: 2px solid white;
