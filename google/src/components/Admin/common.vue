@@ -94,7 +94,6 @@ export default{
       float: right;
       margin-right: 0.5em;
     }
-   
   }
   border-bottom: 2px solid #eee;
   padding-bottom: 0.3em;
