@@ -6,10 +6,10 @@
           <div class="banner-wrapper">
             <div class="slide-banner-scroll" ref="slide">
               <div class="slide-banner-wrapper">
-                <div class="slide-item page1">page 1</div>
-                <div class="slide-item page2">page 2</div>
-                <div class="slide-item page3">page 3</div>
-                <div class="slide-item page4">page 4</div>
+                <div class="slide-item page1"></div>
+                <div class="slide-item page2"></div>
+                <div class="slide-item page3"></div>
+                <div class="slide-item page4"></div>
               </div>
             </div>
             <div class="docs-wrapper">
@@ -112,12 +112,12 @@ export default{
         this.currentPageIndex = pageIndex
         this.autoGoNext()
       },
-      autoGoNext() {
-        clearTimeout(this.playTimer)
-        this.playTimer = setTimeout(() => {
-          this.nextPage()
-        }, 4000)
-      }
+      // autoGoNext() {
+      //   clearTimeout(this.playTimer)
+      //   this.playTimer = setTimeout(() => {
+      //     this.nextPage()
+      //   }, 4000)
+      // }
     
    }
 }
@@ -137,7 +137,78 @@ export default{
     margin:4em auto 0 auto;
     border: 1px solid #eee;
     box-shadow:0 0 1em #ccc; 
-
+    .slide-fullpage.view{
+      padding: 0;
+      height: 100%;
+      }
+    .slide-fullpage{
+      height:100%;
+      .banner-wrapper{
+        .docs-wrapper{
+          position :absolute;
+          bottom :4px;
+          left :50%;
+          transform :translateX(-50%);
+           .doc{
+              display :inline-block;
+              margin :0 4px;
+              width :8px;
+              height :8px;
+              border-radius :50%;
+              background :#eee;
+           }
+           .doc.active{
+             width :20px;
+             border-radius :5px;
+           }
+        }
+        position:relative;
+        height:100%;
+        .slide-banner-scroll{
+          height:100%;
+          overflow:hidden;
+          .slide-banner-wrapper{
+            height:100%;
+            white-space:nowrap;
+            font-size:0;
+            .slide-item{
+              display:inline-block;
+              height:100%;
+              width:100%;
+              line-height:200px;
+              text-align:center;
+              font-size:26px;
+              transform:translate3d(0,0,0);
+              backface-visibility:hidden; 
+            }
+            .slide-item.page1{ 
+              background-image: url('../../assets/img/admin/jiaoshi_p.png'); 
+              background-repeat:no-repeat;
+              background-size:55% 50%;
+              background-position: center 15%;
+                  } 
+              .slide-item.page2{ 
+                background-image: url('../../assets/img/admin/jssh.png');
+                background-repeat:no-repeat;
+                background-size:75% 60%;
+                background-position: center 15%;
+                }  
+              .slide-item.page3{ 
+                background-image: url('../../assets/img/admin/quanxian.png');
+                background-repeat:no-repeat;
+                background-size:60% 60%;
+                background-position:top center;
+                 } 
+              .slide-item.page4{ 
+                background-image: url('../../assets/img/admin/upload.png');
+                background-repeat:no-repeat;
+                background-size:60% 60%;
+                background-position:top center;
+                }  
+          }
+        }
+      }
+    }
   }
   .rizhi{
     width: 80%;
