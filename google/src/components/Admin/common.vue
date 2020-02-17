@@ -31,9 +31,9 @@ export default{
     }
   },
   props: ['touxiang'],
-  components:{
+  // components:{
          
-   },
+  //  },
    mounted(){
     this.getData();
    },

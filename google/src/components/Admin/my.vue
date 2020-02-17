@@ -62,15 +62,14 @@ export default{
       worknum:2700001111111,
       position:'教务处主任',
       name:"古飞扬",
-    
     }
   },
-  components:{
+  // components:{
          
-   },
-   mounted(){
+  //  },
+  //  mounted(){
 
-   },
+  //  },
    methods:{
       change(num){
         if(num==1){
@@ -78,22 +77,24 @@ export default{
           path: `/change`,
         })
         }
-         if(num==2){
+         else if(num==2){
           this.$router.push({
           path: `/email`,
         })
-        } if(num==3){
+        } else if(num==3){
           this.$router.push({
           path: `/about`,
         })
-        } if(num==4){
+        }else if(num==4){
           this.$router.push({
           path: `/set`,
         })
         }
       },
       back(){
-          this.$router.go(-1);
+        if(this.$route.params.num==1){
+            this.$router.push('/admin');
+        } 
       }
    }
 }
@@ -147,9 +148,7 @@ export default{
       margin-top: 1.5em;
       box-shadow:0px -2px  2px 2px #eee;
       border-top: 1px solid #eee;
-
     }
-    
   }
 }
 </style>
