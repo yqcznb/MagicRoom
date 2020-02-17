@@ -52,6 +52,22 @@ const routes = [
   { path: "/admin",
     name: "admin",
     component: () => import("@/components/Admin/admin.vue")
+  },
+  { path: "/jsone",
+    name: "jsone",
+    component: () => import("@/components/Admin/jsone.vue")
+  },
+  { path: "/jstwo",
+    name: "jstwo",
+    component: () => import("@/components/Admin/jstwo.vue")
+  },
+  { path: "/jsthree",
+    name: "jsthree",
+    component: () => import("@/components/Admin/jsthree.vue")
+  },
+  { path: "/jsfour",
+    name: "jsfour",
+    component: () => import("@/components/Admin/jsfour.vue")
   }
  
 ]
