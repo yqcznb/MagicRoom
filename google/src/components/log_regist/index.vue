@@ -3,6 +3,12 @@
      @touchstart="beforeAct" @touchmove.prevent="inAct" @touchend="endAct">
         <img :src="backimg_src" alt="" class="login_backimg" ref="login_backimg">
         <div class="content">
+            <div class="mmdl_box" v-show="verify_show" @click="()=>{this.password_show = true}">
+                <span>密码登录</span>
+                <svg class="icon mmdl" ref="syb" aria-hidden="true" @click="left_state">
+                    <use xlink:href="#iconhoutai_mimadenglu"></use>
+                </svg>
+            </div>
             <img v-lazy="logo" class="cont_logo">
             <div class="cont_input">
                 <svg class="icon" ref="syb" aria-hidden="true" @click="left_state">
@@ -69,7 +75,7 @@
          :maxlength="11"
          @blur="phone_keyboard_show = false"/>
          <!-- 验证码键盘 -->
-         <van-number-keyboard
+        <van-number-keyboard
          v-model="verify_num"
          theme="custom"
          extra-key="."
@@ -77,6 +83,23 @@
          :show="verify_keyboard_show"
          :maxlength="6"
          @blur="verify_keyboard_show = false"/>
+        <!-- 密码登录弹出层 -->
+        <van-popup v-model="password_show" position="bottom" :style="{ width: '100%', height: '40%' }">
+            <van-password-input
+             :value="pass_num"
+             info="密码为 6 位数字"
+             :focused="show_pass_keyboard"
+             @focus="show_pass_keyboard = true"/>
+             <!-- 密码键盘 -->
+            <van-number-keyboard
+             v-model="pass_num"
+             theme="custom"
+             close-button-text="完成"
+             :show="show_pass_keyboard"
+             :maxlength="6"
+             @blur="confirm_pass"/>
+        </van-popup>
+        
     </div>
 </template>
 <script>
@@ -137,6 +160,10 @@ export default {
             verify_num: '请输入验证码',
             verify_keyboard_show: false,
             counting_num: 60,
+
+            password_show: false,
+            pass_num: '',
+            show_pass_keyboard: true,
             
         }
     },
@@ -357,7 +384,8 @@ export default {
                 }
             }
         },
-        counting() {
+       
+        confirm_pass() {
 
         }
     }
@@ -365,6 +393,7 @@ export default {
 </script>
 <style lang="scss">
 .log_regist {
+    bordeR: 1px solid red;
     height: 100vh;
     overflow: hidden;
     .login_backimg {
@@ -375,8 +404,17 @@ export default {
         z-index: -10;
     }
     .content {
-        // bordeR: 1px solid red;
         margin-top: 20vh;
+        .mmdl_box {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            right: 0;
+            top: 0;
+            font-size: 14px;
+            color: white;
+        }
         .cont_input {
             margin-top: 1em;
             padding: 0 1em;
