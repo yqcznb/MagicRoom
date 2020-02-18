@@ -10,7 +10,7 @@
                     <div class="chen">
                         <span>教室管理</span>
                          <span>Classroom management</span>
-                          <span @click="jump(1)">
+                          <span>
                             <svg class="icon" aria-hidden="true" @click="jump(1)">
                               <use xlink:href="#iconjinru"></use>
                             </svg>
@@ -146,7 +146,8 @@ export default{
           useTransition: true,
           momentum: false,
           bounce: false,
-          stopPropagation: true
+          stopPropagation: true,
+          click:true
         })
         this.slide.on('scrollEnd', this._onScrollEnd)
 
@@ -155,9 +156,9 @@ export default{
           clearTimeout(this.playTimer)
         })
         // user touched the slide done
-        this.slide.on('scrollEnd', () => {
-          // this.autoGoNext()
-        })
+        // this.slide.on('scrollEnd', () => {
+        //    this.autoGoNext()
+        // })
         window.bs = this.slide
         // this.autoGoNext()
       },

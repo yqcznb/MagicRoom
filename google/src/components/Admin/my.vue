@@ -94,6 +94,10 @@ export default{
       back(){
         if(this.$route.params.num==1){
             this.$router.push('/admin');
+        } if(this.$route.params.num==2){
+            this.$router.push('');
+        } if(this.$route.params.num==3){
+            this.$router.push('/curriculum');
         } 
       }
    }
