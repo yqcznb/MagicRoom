@@ -1,7 +1,7 @@
 <template>
     <div id="back_bar">
         <div class="title_view">
-            <svg class="icon " aria-hidden="true" @click="()=>{this.$router.replace(backbar.link)}">
+            <svg class="icon " aria-hidden="true" @click="()=>{this.$router.go(-1)}">
                 <use xlink:href="#iconhuabanfuben"></use>
             </svg>
             <span class="title" v-text="backbar.title"></span>

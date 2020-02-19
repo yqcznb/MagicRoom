@@ -2,7 +2,7 @@
   <div id="my">
     <div class="top">
      <div class="left">
-      <svg class="icon" aria-hidden="true" @click="()=>{this.$router.replace({ name: 'scanning', params: { link: '/my', title: '扫一扫' } })}">
+      <svg class="icon" aria-hidden="true" @click="()=>{this.$router.push({ name: 'scanning', params: { title: '扫一扫' } })}">
         <use xlink:href="#iconsaoyisao"></use>
       </svg>
      </div>
@@ -95,7 +95,7 @@ export default{
         if(this.$route.params.num==1){
             this.$router.push('/admin');
         } if(this.$route.params.num==2){
-            this.$router.push('');
+            this.$router.push('/stu');
         } if(this.$route.params.num==3){
             this.$router.push('/curriculum');
         } 

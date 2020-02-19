@@ -47,7 +47,6 @@ export default {
     data() {
         return {
             backbar: {
-                link: this.$route.params.link,
                 title: this.$route.params.title,
             },
             codeReader: new BrowserMultiFormatReader(),
