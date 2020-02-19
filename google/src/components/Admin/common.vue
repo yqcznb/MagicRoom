@@ -14,7 +14,7 @@
       </svg>
      </div>
     <div class="right">
-      <svg class="icon" aria-hidden="true">
+      <svg class="icon" aria-hidden="true" @click="()=>{this.$router.push({ name: 'message', params: { title: '消息列表' } })}">
         <use xlink:href="#iconxiaoxi"></use>
       </svg>
      </div>

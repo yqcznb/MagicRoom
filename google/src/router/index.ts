@@ -68,6 +68,14 @@ const routes = [
   { path: "/jsfour",
     name: "jsfour",
     component: () => import("@/components/Admin/jsfour.vue")
+  },
+  { path: "/stu",
+    name: "stu",
+    component: () => import("@/components/stu/index.vue")
+  },
+  { path: "/message",
+    name: "message",
+    component: () => import("@/components/common/message.vue")
   }
  
 ]
