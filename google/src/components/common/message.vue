@@ -21,6 +21,7 @@ export default {
 </script>
 <style lang="scss">
 .message {
-
+    height: 100vh;
+    background-color: #f9f7f7;
 }
 </style>

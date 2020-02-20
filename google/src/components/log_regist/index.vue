@@ -18,7 +18,7 @@
                     <div class="animate_box">
                         <!-- 身份选择 -->
                         <transition
-                        enter-active-class="animated fadeInLeft" leave-active-class="animated fadeOutLeft">
+                         enter-active-class="animated fadeInLeft" leave-active-class="animated fadeOutLeft">
                             <div class="cont_input_msg" @click="()=>{this.iden_popup_show = true}" v-show="iden_show">
                                 <span v-text="iden_text_choose"></span> <img v-lazy="identify" v-show="!ico_show">
                                 <svg class="icon" aria-hidden="true" v-show="ico_show">
@@ -69,20 +69,18 @@
         <van-number-keyboard
          v-model="phone_num"
          theme="custom"
-         extra-key="."
          close-button-text="完成"
          :show="phone_keyboard_show"
          :maxlength="11"
-         @blur="phone_keyboard_show = false"/>
+         @blur="pho_veri_keyboard('p')"/>
          <!-- 验证码键盘 -->
         <van-number-keyboard
          v-model="verify_num"
          theme="custom"
-         extra-key="."
          close-button-text="完成"
          :show="verify_keyboard_show"
          :maxlength="6"
-         @blur="verify_keyboard_show = false"/>
+         @blur="pho_veri_keyboard('v')"/>
         <!-- 密码登录弹出层 -->
         <van-popup v-model="password_show" position="bottom" :style="{ width: '100%', height: '40%' }">
             <van-password-input
@@ -207,6 +205,9 @@ export default {
                 backimg_dom.style.width = '100%';
             }
         },
+        // 'phone_num' (val) {
+            
+        // }
         
     },
     methods: {
@@ -350,6 +351,27 @@ export default {
             }
             this.phone_keyboard_show = true;
         },
+        pho_veri_keyboard(val) {
+            switch (val) {
+                case 'p':
+                    let phone = this.phone_num;
+                    if(phone == '') {
+                        this.phone_num = '请输入手机号';
+                    }
+                    else if(!(/^1[3456789]\d{9}$/.test(phone))){ 
+                        this.$toast("请注意您的手机号码格式");  
+                    }
+                    this.phone_keyboard_show = false;
+                    break;
+                case 'v':
+                    if(this.verify_num == '') {
+                        this.verify_num = '请输入验证码';
+                    }
+                    this.verify_keyboard_show = false;
+                    break;
+            }
+            
+        },
         verify_fun() {    // 展示验证码键盘
             if(this.verify_num == '请输入验证码') {
                 this.verify_num = '';
@@ -393,7 +415,7 @@ export default {
 </script>
 <style lang="scss">
 .log_regist {
-    bordeR: 1px solid red;
+    // bordeR: 1px solid red;
     height: 100vh;
     overflow: hidden;
     .login_backimg {
