@@ -29,6 +29,8 @@
   </div>
 </template>
 <script>
+import Vue from 'vue';
+import { IndexBar, IndexAnchor } from 'vant';
 export default{
   name:"about",
   data(){
@@ -72,6 +74,8 @@ export default{
   .but{
       margin-top: 3em;
       border-top: 3px solid #eee;
+      width: 100%;
+      height: 100%;
   }
 }
 </style>
