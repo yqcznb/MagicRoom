@@ -1,4 +1,4 @@
-# MagicRoom
+# MagicRoom智慧教室系统
 
 #### 2020-2-6
 
