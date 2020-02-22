@@ -39,15 +39,20 @@
       </div>
      </div>
      <div class="but_right">
-
+       <ul>
+         <li v-for="count in this.floor" :key="count" :style="randomRgb(item)" > {{count}}F</li>
+       </ul>
      </div>
      <div class="docs-wrapper">
               <span
                 class="doc"
-                v-for="(item, index) in 4"
+                v-for="(item, index) in bu_num"
                 :key="index"
                 :class="{'active': currentPageIndex === index}"></span>
       </div>
+       <div class="class_list">
+
+       </div>
   </div>
   </div>
 </template>
@@ -60,33 +65,40 @@ export default{
   data(){
     return{
      aa:"",
+     jiao:"",
+     floor:"",
      slide: null,
      currentPageIndex: 0,
      playTimer: 0,
+     bu_num:4,
      lists:[
        {one:"1号教学楼",two:"Teaching building 1",id:1,
        'icon': {
             backgroundImage:
             "url(" + require('../../assets/img/admin/jiaoxuelou1.png') + ")",
-          }
+          },
+          floor:4
        },
        {one:"2号教学楼",two:"Teaching building 2",id:2,
        'icon': {
             backgroundImage:
             "url(" + require('../../assets/img/admin/jiaoxuelou2.png') + ")",
-          }
+          },
+          floor:5
        },
        {one:"3号教学楼",two:"Teaching building 3",id:3,
        'icon': {
             backgroundImage:
             "url(" + require('../../assets/img/admin/jiaoxuelou3.png') + ")",
-          }
+          },
+          floor:6
        },
        {one:"4号教学楼",two:"Teaching building 4",id:4,
        'icon': {
             backgroundImage:
             "url(" + require('../../assets/img/admin/jiaoxuelou4.png') + ")",
-          }
+          },
+          floor:4
        },
      ]
     }
@@ -99,7 +111,20 @@ export default{
       this.slide.destroy()
     },
     methods:{
+      randomRgb(item) {
+        let R = Math.floor(Math.random() * 130+110);
+        let G = Math.floor(Math.random() * 130+110);
+        let B = Math.floor(Math.random() * 130+110);
+        return {
+          background: 'rgb(' + R + ',' + G + ',' + B + ')'
+        };
+      },
        init() {
+          this.lists.filter(item=> {
+                     if(item.id == 1){
+                         this.floor = item.floor
+                     }
+                 })
         clearTimeout(this.playTimer)
         this.slide = new BScroll(this.$refs.slide, {
           scrollX: true,
@@ -129,6 +154,12 @@ export default{
       _onScrollEnd() {
         let pageIndex = this.slide.getCurrentPage().pageX
         this.currentPageIndex = pageIndex
+        this.jiao = this.currentPageIndex+1
+        this.lists.filter(item=> {
+                     if(item.id == this.jiao){
+                         this.floor = item.floor
+                     }
+                 })
       }
     }
 }
@@ -139,24 +170,6 @@ export default{
   width: 100%;
   height: 100%;
   position: fixed;
-  .docs-wrapper{ 
-    width: 80%;
-    float: left;
-    margin-top:1em;
-           .doc{
-              display :inline-block;
-              margin :0 4px;
-              width :2em;
-              height :0.5em;
-              border-radius :0.5em;
-              background :#eee;
-           }
-           .doc.active{
-              width :2em;
-              height :0.5em;
-             background :#aaa;
-           }
-        }
   .top{
     margin-top: 0.5em;
     width: 100%;
@@ -179,11 +192,38 @@ export default{
       border-top: 3px solid #eee;
       width: 100%;
       height: 100%;
+    .class_list{
+    width: 80%;
+    height: 38%;
+    background: #FFFDF9;
+    border: 1px solid #eee;
+    box-shadow:0 0 1em #ccc; 
+    margin: 2.5em auto;
+    border-radius: 0.5em;
+  }
+  .docs-wrapper{ 
+    width: 80%;
+    float: left;
+    margin-top:0.5em;
+           .doc{
+              display :inline-block;
+              margin :0 4px;
+              width :2em;
+              height :0.5em;
+              border-radius :0.5em;
+              background :#eee;
+           }
+           .doc.active{
+              width :2em;
+              height :0.5em;
+             background :#aaa;
+           }
+        }
       .but_left{
         float: left;
         display: inline-block;
         width: 80%;
-        height: 45%;
+        height: 44%;
 
         .slide-fullpage.view{
       padding: 0;
@@ -235,10 +275,26 @@ export default{
       }
       .but_right{
         display: inline-block;
-        
         width: 20%;
-        height: 45%;
-        background:yellow;
+        height: 44%;
+        ul{
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: flex-end;
+          li{
+            width: 60%;
+            max-height: 17%;
+            border-radius: 50% 0 0 50%;
+            flex-grow:1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 1px solid #ccc;
+          }
+        }
       }
   }
 }
