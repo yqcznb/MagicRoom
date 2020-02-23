@@ -1,7 +1,13 @@
 <template>
     <div class="message">
         <backbar :backbar = backbar></backbar>
-        <msglist/>
+        <div class="placeholder_bar"></div>
+        <van-pull-refresh
+         v-model="isLoading"
+         success-text="刷新成功"
+         @refresh="onRefresh">
+            <msglist/>
+        </van-pull-refresh>
     </div>
 </template>
 <script>
@@ -15,6 +21,14 @@ export default {
             backbar: {
                 title: this.$route.params.title,
             },
+            isLoading: false,
+        }
+    },
+    methods: {
+        onRefresh() {
+            setTimeout(() => {
+                this.isLoading = false;
+            }, 1000);
         }
     }
 }
@@ -25,5 +39,9 @@ export default {
     height: 100vh;
     overflow: hidden;
     background-color: #f9f7f7;
+    .placeholder_bar {
+        width: 100vw;
+        height: 3em;
+    }
 }
 </style>
