@@ -9,7 +9,9 @@ import VueLazyload from 'vue-lazyload'
 import Bscroll from 'better-scroll'
 
 Vue.use(Vant);
-Vue.use(VueLazyload)
+Vue.use(VueLazyload);
+// Vue.use(IndexBar);
+// Vue.use(IndexAnchor);
 
 Vue.config.productionTip = false
 
