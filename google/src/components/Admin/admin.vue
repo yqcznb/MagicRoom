@@ -61,7 +61,7 @@
                 v-for="(item, index) in 4"
                 :key="index"
                 :class="{'active': currentPageIndex === index}"></span>
-            </div>
+      </div>
     <div class="rizhi">
       操作日志
     </div>
