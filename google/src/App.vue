@@ -35,4 +35,9 @@
   .placeholder {
     opacity: 0;
   }
+
+  .placeholder_bar {
+    width: 100vw;
+    height: 3em;
+  }
 </style>
