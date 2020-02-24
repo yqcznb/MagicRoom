@@ -39,7 +39,9 @@
           </svg>
         </div>
         <div class="name">
-          <span>详细课程列表</span>
+          <router-link to='/list'>
+            <span>详细课程列表</span>
+          </router-link>
         </div>
       </div>
       <div class="class_card">
@@ -50,7 +52,7 @@
             </svg>
           </div>
           <div class="middle">
-            <span>前端框架应用实验</span>
+            <div class="middle_title">前端框架应用实验</div>
             <div>
               <svg class="icon" >
                 <use xlink:href="#iconshangsuo1"></use>
@@ -275,11 +277,9 @@ export default {
             .middle{
               width: 80%;
               border: 1px solid #ccc;
-              span{
-                display: inline-block;
+              .middle_title{
                 width: 80%;
-                height: 100%;
-                margin: auto;
+                // height: 100%;
               }
               div{
                 width: 20%;
