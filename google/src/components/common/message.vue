@@ -39,9 +39,5 @@ export default {
     height: 100vh;
     overflow: hidden;
     background-color: #f9f7f7;
-    .placeholder_bar {
-        width: 100vw;
-        height: 3em;
-    }
 }
 </style>
