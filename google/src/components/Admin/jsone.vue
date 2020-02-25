@@ -51,7 +51,49 @@
                 :class="{'active': currentPageIndex === index}"></span>
       </div>
        <div class="class_list">
-
+          <div class="list_top">
+            <div class="quanxuan">
+              <input type="checkbox" name="quanxuan" id="quanxuan">全选
+            </div>
+            <div class="class_mu">
+              教室列表
+            </div>
+          </div>
+          <div class="class_middle">
+            <div class="leii">
+                <div>入口</div><div>选择</div> <div>教室</div> <div>所属院系</div><div>状态</div>
+            </div>
+            <div class="lei" v-for="list in 10" :key="list">
+                 <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#iconrukou"></use>
+                 </svg>
+                  <input type="checkbox" name="quanxuan" id="quanxuan">
+                  <div>1308</div>
+                  <div>信息工程学院</div>
+                  <div>
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#iconzhengchang"></use>
+                    </svg> 
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#iconweixiuzhong"></use>
+                    </svg> 
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#iconjinyong1"></use>
+                    </svg>
+                  </div>
+            </div>
+          </div>
+          <div class="class_botton">
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#iconzhengchang"></use>
+            </svg> 正常
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#iconweixiuzhong"></use>
+            </svg> 维护
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#iconjinyong1"></use>
+            </svg>禁用
+          </div>
        </div>
   </div>
   </div>
@@ -71,6 +113,7 @@ export default{
      currentPageIndex: 0,
      playTimer: 0,
      bu_num:4,
+     item:"",
      lists:[
        {one:"1号教学楼",two:"Teaching building 1",id:1,
        'icon': {
@@ -200,6 +243,102 @@ export default{
     box-shadow:0 0 1em #ccc; 
     margin: 2.5em auto;
     border-radius: 0.5em;
+    .class_botton{
+      width: 100%;
+      height: 11%;
+      box-sizing:border-box;
+      border-top: 1px solid #ccc;
+      display: flex;
+      flex-direction: row;
+      justify-content:space-around;
+      align-items: center;
+      .icon {
+      width: 1.2em; height: 1.2em;
+      vertical-align: -0.15em;
+      fill: currentColor;
+      overflow: hidden;
+      }
+    }
+    .icon {
+     width: 1em; height: 1em;
+     vertical-align: -0.15em;
+     fill: currentColor;
+     overflow: hidden;
+  }
+   input[type=checkbox] {
+            margin-right: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            width: 0.9em;
+            height: 0.9em;
+            position: relative;
+          }
+
+          input[type=checkbox]:after {
+            position: absolute;
+            width: 1em;
+            height: 1em;
+            top: -0.2em;
+            content: " ";
+            background-color:#fff;
+            color: #fff;
+            display: inline-block;
+            visibility: visible;
+            border-radius: 3px;
+            border:1px solid #A9A9A9;
+          }
+          input[type=checkbox]:checked:after {
+            content: "✓";
+            font-size: 1em;
+            background-color: #3c7dfd;
+          }
+    .list_top{
+      width: 100%;
+      height: 11%;
+      box-sizing:border-box;
+      border-bottom: 1px solid #ccc;
+       position: relative;
+      .quanxuan{
+        display: inline-block;
+        float: left;
+        position:absolute;
+        top:50%;
+        left:10%;
+        transform: translate(-10%,-50%);
+
+      }
+      .class_mu{
+        display: inline-block;
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform: translate(-50%,-50%);
+      }
+    }
+    .class_middle{
+      width: 100%;
+      height: 78%;
+      display: flex;
+      flex-direction:column;
+      justify-content: space-between;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      font-size: 14px;
+      .lei{
+        display: flex;
+        flex-direction:row;
+        justify-content: space-around;
+      }
+      .leii{
+        display: flex;
+        flex-direction:row;
+        justify-content: space-around;
+        margin-left: -0.5em;
+       div:nth-child(2),div:nth-child(3){
+          margin-left: -1.8em;
+       }
+      }
+    }
   }
   .docs-wrapper{ 
     width: 80%;
