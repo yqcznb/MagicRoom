@@ -4,7 +4,7 @@
         <img :src="backimg_src" alt="" class="login_backimg" ref="login_backimg">
         <div class="content">
             <div class="mmdl_box" v-show="verify_show" @click="()=>{this.password_show = true}">
-                <span>密码登录</span>
+                <span v-text="mmdl_zc"></span>
                 <svg class="icon mmdl" ref="syb" aria-hidden="true" @click="left_state">
                     <use xlink:href="#iconhoutai_mimadenglu"></use>
                 </svg>
@@ -117,6 +117,10 @@ export default {
             logo: 'https://upload-images.jianshu.io/upload_images/19325457-a8a3cea6c0e07514.png',
             identify: 'https://upload-images.jianshu.io/upload_images/19325457-cf60014b22f51e1c.png?imageMogr2/auto-orient/strip|imageView2/2/format/webp',
             phone_logo: 'https://upload-images.jianshu.io/upload_images/19325457-e8d00c86bb495ce2.png?imageMogr2/auto-orient/strip|imageView2/2/format/webp',
+
+            touch_flag: 1,
+            // touch_permit: 1,
+
             state_list: [ 'active', 'unselect', 'unselect'],
             state_one: [ 'active', 'unselect', 'unselect'],
             state_two: [ 'unselect', 'active', 'unselect'],
@@ -129,6 +133,8 @@ export default {
             ico_show: false,                  //被选中后显示ico
             iden_text_choose: '点击选择身份',  //被选中身份值
             iden_ico_choose: '#iconxuesheng', //被选中ico值
+
+            mmdl_zc: '密码注册',
 
             // 状态显示列表
             iden_show: true,
@@ -205,9 +211,28 @@ export default {
                 backimg_dom.style.width = '100%';
             }
         },
-        // 'phone_num' (val) {
-            
-        // }
+        'touch_flag' (val) {
+            // 设置touch_flag确定是否允许滑动操作
+            if(this.iden_show) {
+                if(this.iden_text_choose == '点击选择身份') {
+                    this.touch_flag = 0;
+                    this.$toast('请选择身份');
+                }
+            } else if(this.phone_show) {
+                if(this.phone_num == '请输入手机号') {
+                    this.touch_flag = 0;
+                    this.$toast('请输入手机号');
+                } else {
+                    this.case_phone(this.phone_num);
+                }
+            } 
+            // else if(this.verify_show) {
+            //     if(this.verify_num == '点击选择身份') {
+            //         this.touch_flag = 0;
+            //         this.$toast('请输入验证码');
+            //     }
+            // }
+        }
         
     },
     methods: {
@@ -255,6 +280,7 @@ export default {
             this.endY = this.beforeY = parseInt(touch.clientY);
         },
         inAct() {
+            this.touch_flag++;
             let touch;
             if(event.touches){
                 touch = event.touches[0];
@@ -268,15 +294,21 @@ export default {
             let resX = this.endX-this.beforeX;
             let resY = this.endY-this.beforeY;
             // console.log(`X:${resX},Y:${resY}`);
-            this.change_state(resX, resY);
+            if(this.touch_flag) {
+                this.change_state(resX, resY);
+            }
         },
         // 点击右侧按钮，模拟左滑
         right_state() {
-            this.change_state(-100, 0);
+            if(this.touch_flag) {
+                this.change_state(-100, 0);
+            }
         },
         // 点击左侧按钮，模拟右滑
         left_state() {
-            this.change_state(100, 0);
+            if(this.touch_flag) {
+                this.change_state(100, 0);
+            }
         },
         change_state(resX, resY) {
             if( Math.abs(resY) < 100 ) {
@@ -354,14 +386,7 @@ export default {
         pho_veri_keyboard(val) {
             switch (val) {
                 case 'p':
-                    let phone = this.phone_num;
-                    if(phone == '') {
-                        this.phone_num = '请输入手机号';
-                    }
-                    else if(!(/^1[3456789]\d{9}$/.test(phone))){ 
-                        this.$toast("请注意您的手机号码格式");  
-                    }
-                    this.phone_keyboard_show = false;
+                    this.case_phone(val);
                     break;
                 case 'v':
                     if(this.verify_num == '') {
@@ -370,7 +395,18 @@ export default {
                     this.verify_keyboard_show = false;
                     break;
             }
-            
+        },
+        case_phone(val) {
+            let phone = this.phone_num;
+                if(phone == '') {
+                    this.phone_num = '请输入手机号';
+                }
+                else if(!(/^1[3456789]\d{9}$/.test(phone))){ 
+                    this.touch_flag = 0;
+                    this.$toast("请注意您的手机号码格式");
+                    // 设置touch_flag确定是否允许滑动操作
+                }
+                this.phone_keyboard_show = false;
         },
         verify_fun() {    // 展示验证码键盘
             if(this.verify_num == '请输入验证码') {
@@ -408,14 +444,13 @@ export default {
         },
        
         confirm_pass() {
-
+            this.password_show = false;
         }
     }
 }
 </script>
 <style lang="scss">
 .log_regist {
-    // bordeR: 1px solid red;
     height: 100vh;
     overflow: hidden;
     .login_backimg {
@@ -455,7 +490,6 @@ export default {
                 align-items: center;
                 .animate_box {
                     display: flex;
-                    // justify-content: space-between;
                     .cont_input_msg {
                         min-width: 40vw;
                         height: 5ex;
@@ -514,5 +548,4 @@ export default {
         }
     }
 }
-
 </style>
