@@ -64,9 +64,11 @@
                 <div>入口</div><div>选择</div> <div>教室</div> <div>所属院系</div><div>状态</div>
             </div>
             <div class="lei" v-for="list in 10" :key="list">
-                 <svg class="icon" aria-hidden="true">
+                <router-link to="/setzw">
+                   <svg class="icon" aria-hidden="true">
                     <use xlink:href="#iconrukou"></use>
-                 </svg>
+                  </svg>
+                </router-link>
                   <input type="checkbox" name="quanxuan" id="quanxuan">
                   <div>1308</div>
                   <div>信息工程学院</div>
@@ -224,8 +226,12 @@ export default{
     font-weight: bold;
     float: left;
     margin-left: 0.5em;
+    position: relative;
     span{
-        margin-left: 30%;
+       position:absolute;
+       top:50%;
+       left:50%;
+       transform: translate(-50%,-50%);
     }
     }
   }
@@ -328,6 +334,9 @@ export default{
         display: flex;
         flex-direction:row;
         justify-content: space-around;
+        a{
+          cursor: pointer;
+        }
       }
       .leii{
         display: flex;
