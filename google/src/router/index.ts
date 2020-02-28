@@ -82,6 +82,10 @@ const routes = [
     name: "message",
     component: () => import("@/components/common/message.vue")
   },
+  { path: "/buildlist",
+    name: "buildlist",
+    component: () => import("@/components/stu/clear/buildlist.vue")
+  },
   { path: "/setzw",
     name: "setzw",
     component: () => import("@/components/Admin/setzw.vue")
