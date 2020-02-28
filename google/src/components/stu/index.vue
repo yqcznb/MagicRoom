@@ -15,7 +15,7 @@
                     <span v-text="course_name"></span>
                 </van-col>
                 <van-col span="4" class="course_detail">
-                    <svg class="icon detail_ico" @click="()=>{this.$router.push({ name: 'list', params: {  } })}">
+                    <svg class="icon detail_ico" @click="()=>{this.$router.push({ name: this.toRoute, params: { title:'教学楼' } })}">
                         <use xlink:href="#icongengduo1"></use>
                     </svg>
                 </van-col>
@@ -43,6 +43,7 @@ export default {
             endY: 0,
 
             course_name: '无',
+            toRoute: 'buildlist',
 
             // 底部扫描ico
             scan_img: 'https://upload-images.jianshu.io/upload_images/19325457-4fbedea0b98598ca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240',
