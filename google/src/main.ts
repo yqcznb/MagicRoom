@@ -9,10 +9,12 @@ import VueLazyload from 'vue-lazyload'
 import Bscroll from 'better-scroll'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import VueTouch from 'vue-touch'
 
 Vue.use(Vant);
 Vue.use(VueLazyload);
 Vue.use(VueAxios, axios);
+Vue.use(VueTouch, {name: 'v-touch'})
 // Vue.use(IndexBar);
 // Vue.use(IndexAnchor);
 
