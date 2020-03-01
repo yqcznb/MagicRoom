@@ -3,7 +3,7 @@
         <backbar :backbar = backbar></backbar>
         <div class="placeholder_bar"></div>
         <!-- 教学楼卡片 -->
-        <build-card/>
+        <build-card :build_list="build_list"/>
 
         <floor-list/>
     </div>
@@ -19,6 +19,33 @@ export default {
             backbar: {
                 title: this.$route.params.title,
             },
+
+            build_list: [
+                {   
+                    id: 0,
+                    build_img: 'https://upload-images.jianshu.io/upload_images/19325457-240ec3e1b7b154f0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240',
+                    zh_cn_name: '①号教学楼',
+                    en_name: 'Teaching building ①',
+                },
+                {
+                    id: 1,
+                    build_img: 'https://upload-images.jianshu.io/upload_images/19325457-2e140334576b63a5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240',
+                    zh_cn_name: '②号教学楼',
+                    en_name: 'Teaching building ②',
+                },
+                {
+                    id: 2,
+                    build_img: 'https://upload-images.jianshu.io/upload_images/19325457-d3cb7ce9fb8486a5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240',
+                    zh_cn_name: '③号教学楼',
+                    en_name: 'Teaching building ③',
+                },
+                {
+                    id: 3,
+                    build_img: 'https://upload-images.jianshu.io/upload_images/19325457-a7947936eb3423b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240',
+                    zh_cn_name: '④号教学楼',
+                    en_name: 'Teaching building ④',
+                },
+            ],
         }
     }
 }
