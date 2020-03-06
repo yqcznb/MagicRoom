@@ -65,7 +65,7 @@
             </div>
             <div class="lei" v-for="list in 10" :key="list">
                 <router-link to="/setzw">
-                   <svg class="icon" aria-hidden="true">
+                   <svg class="icon" aria-hidden="true" @click="tiao">
                     <use xlink:href="#iconrukou"></use>
                   </svg>
                 </router-link>
@@ -156,6 +156,14 @@ export default{
       this.slide.destroy()
     },
     methods:{
+      tiao(){
+        this.$router.push({
+           path:'/setzw',
+           query:{
+             id:1308
+          }
+        });
+      },
       randomRgb(item) {
         let R = Math.floor(Math.random() * 130+110);
         let G = Math.floor(Math.random() * 130+110);
