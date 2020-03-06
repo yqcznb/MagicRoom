@@ -34,6 +34,65 @@
             </div>
         </div>
      </div>
+     <div class="jieshi">
+       <div>
+          <input type="checkbox" name="zw" id="zw">已落座
+       </div>
+       <div>
+          <input type="checkbox" name="zw" id="zw">空座
+       </div>
+       <div>
+         <svg class="icon" aria-hidden="true">
+          <use xlink:href="#iconzhengchang"></use>
+         </svg>正常
+       </div>
+       <div>
+         <svg class="icon" aria-hidden="true">
+            <use xlink:href="#iconguzhang"></use>
+         </svg>故障
+       </div>
+       <div>
+          <svg class="icon" aria-hidden="true">
+            <use xlink:href="#iconjinyong"></use>
+          </svg>禁用
+       </div>
+     </div>
+     <div class="caozuo">
+       <div class="one">
+          <div class="left">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#iconzuowei"></use>
+            </svg>
+         </div>
+         <div class="med">{{hao}}</div>
+       </div>
+       <div class="two">
+          选中座位<input type="text">
+       </div>
+       <div class="three">
+          <div>操作</div>
+          <div>
+             <svg class="icon" aria-hidden="true">
+              <use xlink:href="#iconguzhang"></use>
+            </svg>
+          </div>
+          <div>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#iconweixiuzhong"></use>
+            </svg>
+          </div>
+          <div>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#iconjinyong"></use>
+            </svg>
+          </div>
+          <div>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#iconzhengchang"></use>
+            </svg>
+          </div>
+       </div>
+     </div>
   </div>
   </div>
 </template>
@@ -44,18 +103,19 @@ export default{
     return{
      aa:"",
      rows:10,
-     cols:11
+     cols:11,
+     hao:""
     }
   },
-  // components:{
+  components:{
          
-  //  },
-  //  mounted(){
-    
-  //  },
-  //  methods:{
+   },
+   mounted(){
+    this.hao = this.$route.query.id;
+   },
+   methods:{
      
-  //  }
+   }
 }
 </script>
 <style lang="scss">
@@ -97,6 +157,84 @@ export default{
             margin:0 0.7em;
             }
       }
+      .caozuo{
+        position:absolute;
+        width: 80%;
+        background: #FFFDF9;
+        border: 1px solid #eee;
+        box-shadow:0 0 1em #ccc; 
+        left:0;right:0;bottom:0;
+        margin:2.5em auto;
+        border-radius: 0.5em;
+         .icon {
+          width: 1.5em; height: 1.5em;
+          vertical-align: -0.15em;
+          fill: currentColor;
+          overflow: hidden;
+        }
+        display: flex;
+        flex-direction:column;
+        justify-content: space-around;
+        .two,.three{
+          width: 100%;
+          margin: 0.5em auto;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+        }
+        .one{
+          margin-top: 0.5em;
+            .left{
+              float: left;
+              margin-left: 0.5em;
+              position: relative;
+              .med{
+                position:absolute;
+                top:50%;
+                left:50%;
+                transform: translate(-50%,-50%);
+              }
+            }
+        }
+      }
+      .jieshi{
+        margin-top: 1em;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+         .icon {
+          width: 1em; height: 1em;
+          vertical-align: -0.15em;
+          fill: currentColor;
+          overflow: hidden;
+        }
+         input[type=checkbox] {
+            margin-right: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            width: 0.9em;
+            height: 0.9em;
+            position: relative;
+          }
+          input[type=checkbox]:after {
+            position: absolute;
+            width: 1em;
+            height: 1em;
+            top: -0.2em;
+            content: " ";
+            background-color:#fff;
+            color: #fff;
+            display: inline-block;
+            visibility: visible;
+            border-radius: 3px;
+            border:1px solid #A9A9A9;
+          }
+          input[type=checkbox]:checked:after {
+            content: "✓";
+            font-size: 1em;
+            background-color: #3c7dfd;
+          }
+      }
      .big{
         display: flex;
         flex-direction: row;
@@ -109,7 +247,6 @@ export default{
             height: 0.9em;
             position: relative;
           }
-
           input[type=checkbox]:after {
             position: absolute;
             width: 1em;
