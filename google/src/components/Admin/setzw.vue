@@ -23,12 +23,12 @@
         </div>
         <div class="zuowei">
             <div class="row" v-for="row in rows" :key="row">
-                <div class="col"  v-for="col in cols" :key="col">
-                    <input type="checkbox" name="zw" id="zw">
+                <div class="col" v-for="col in cols" :key="col">
+                    <input type="checkbox" name="zw" id="zw" @click="xuanze(row,col)">
                 </div>
             </div>
             <div class="colh">
-                <div class="col"  v-for="col in cols" :key="col">
+                <div class="col" v-for="col in cols" :key="col">
                     {{col}}
                 </div>
             </div>
@@ -36,10 +36,10 @@
      </div>
      <div class="jieshi">
        <div>
-          <input type="checkbox" name="zw" id="zw">已落座
+          <input type="checkbox" name="zw" id="zw" checked="checked">已落座
        </div>
        <div>
-          <input type="checkbox" name="zw" id="zw">空座
+          <input type="checkbox" name="zw" id="zw" disabled="disabled">空座
        </div>
        <div>
          <svg class="icon" aria-hidden="true">
@@ -67,7 +67,7 @@
          <div class="med">{{hao}}</div>
        </div>
        <div class="two">
-          选中座位<input type="text">
+          选中座位<input type="text" v-model="zuowei">
        </div>
        <div class="three">
           <div>操作</div>
@@ -104,7 +104,8 @@ export default{
      aa:"",
      rows:10,
      cols:11,
-     hao:""
+     hao:"",
+     zuowei:"",
     }
   },
   components:{
@@ -114,7 +115,15 @@ export default{
     this.hao = this.$route.query.id;
    },
    methods:{
-     
+     xuanze(a,b){
+        var that=this;
+        if(that.checked="checked"){
+            this.zuowei = "第"+a+"行,第"+b+"列";
+        }else{
+            this.zuowei = "11";
+        }
+       
+     }
    }
 }
 </script>
