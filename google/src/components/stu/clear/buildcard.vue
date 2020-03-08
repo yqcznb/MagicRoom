@@ -31,6 +31,7 @@ export default {
         }
     },
     mounted() {
+        // 初始化第一张教学楼卡片
         this.cardChange(0);
     },
     methods: {
