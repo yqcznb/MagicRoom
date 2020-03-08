@@ -5,7 +5,7 @@
         <!-- 教学楼卡片 -->
         <build-card :buildList="build_list" @changeBuild="changeBuild"/>
 
-        <floor-list/>
+        <floor-list :floorList="floor_list"/>
     </div>
 </template>
 <script>
@@ -45,6 +45,11 @@ export default {
                     zh_cn_name: '④号教学楼',
                     en_name: 'Teaching building ④',
                 },
+            ],
+            floor_list: [
+                {
+                    floor_index: 0,
+                }
             ],
         }
     },
