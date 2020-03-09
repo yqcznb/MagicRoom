@@ -47,18 +47,18 @@ export default {
     width: 100vw;
     height: 50vh;
     margin-bottom: 1ex;
-    .my-swipe .van-swipe-item {
-        color: #fff;
-        font-size: 20px;
-        line-height: 150px;
-        text-align: center;
-        background-color: #39a9ed;
+    // .my-swipe .van-swipe-item {
+    //     color: #fff;
+    //     font-size: 20px;
+    //     line-height: 150px;
+    //     text-align: center;
+    //     background-color: #39a9ed;
          
-    }
+    // }
     .card_list {
         height: 50vh;
         width: 70vw !important;
-        margin: 2em 15vw 0;
+        margin: 2ex 15vw 0;
         // border: 1px solid red;
         .content {
             padding: 0 1em;
@@ -94,9 +94,10 @@ export default {
         }
     }
     .van-swipe {
-        overflow: visible;
+        height: 50vh;
+        // overflow: visible;
         .van-swipe__indicators {
-            bottom: -50vh;
+            // bottom: 0;
             .van-swipe__indicator {
                 width: 2em;
                 height: 4px;
