@@ -33,12 +33,12 @@
         <div @click="change(1)">
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#iconshouji-copy"></use>
-          </svg>1555****000
+          </svg>{{phonenumber}}
         </div>
         <div @click="change(2)">
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#iconyouxiangbangding"></use>
-          </svg>Mag****@gmail.com
+          </svg>{{email}}
         </div>
         <div @click="change(3)">
           <svg class="icon" aria-hidden="true">
@@ -62,15 +62,35 @@ export default{
       worknum:2700001111111,
       position:'教务处主任',
       name:"古飞扬",
+      phonenumber:"1555****000",
+      email:"Mag****@gmail.com"
     }
   },
-  // components:{
+  components:{
          
-  //  },
-  //  mounted(){
-
-  //  },
+   },
+   mounted(){
+     this.huoqu();
+   },
    methods:{
+      huoqu(){
+         this.axios.get('http://182.92.170.161:8080/shop/admin/information_look',{
+                    params: {
+                       u_id:3
+                    }
+                }).then(response=>{
+                  console.log(res);
+                   this.worknum = response.data.a_number;
+                   this.position = response.data.a_position;
+                   this.name = response.data.a_name;
+                   this.phonenumber = response.data.a_phone;
+                   this.email = response.data.a_mail;
+                })      //获取失败
+                .catch(error=>{
+                    console.log(error);
+                    alert('网络错误，不能访问1');
+                })
+      },
       change(num){
         if(num==1){
           this.$router.push({

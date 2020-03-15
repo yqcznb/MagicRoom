@@ -18,7 +18,9 @@ Vue.use(VueAxios, axios);
 Vue.use(VueTouch, {name: 'v-touch'})
 // Vue.use(IndexBar);
 // Vue.use(IndexAnchor);
-
+Vue.prototype.$axios = axios;
+axios.defaults.baseURL = '/api';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 Vue.config.productionTip = false
 
 new Vue({
