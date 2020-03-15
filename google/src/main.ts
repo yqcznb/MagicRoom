@@ -10,6 +10,7 @@ import Bscroll from 'better-scroll'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueTouch from 'vue-touch'
+import echarts from 'echarts'
 
 Vue.use(Vant);
 Vue.use(VueLazyload);
