@@ -79,12 +79,11 @@ export default{
                        u_id:3
                     }
                 }).then(response=>{
-                  console.log(res);
-                   this.worknum = response.data.a_number;
-                   this.position = response.data.a_position;
-                   this.name = response.data.a_name;
-                   this.phonenumber = response.data.a_phone;
-                   this.email = response.data.a_mail;
+                   this.worknum = response.data.data.a_number;
+                   this.position = response.data.data.a_position;
+                   this.name = response.data.data.a_name;
+                   this.phonenumber = response.data.data.a_phone;
+                   this.email = response.data.data.a_mail;
                 })      //获取失败
                 .catch(error=>{
                     console.log(error);
