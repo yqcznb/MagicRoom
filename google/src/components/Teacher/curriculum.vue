@@ -89,7 +89,7 @@
                 </van-checkbox-group>
               </div>
               <div class="chart">
-                <div id="mycharts" ></div>
+                <div id="mycharts" ref="ch"></div>
               </div>
             </div>
           </div>
@@ -149,7 +149,9 @@ export default {
     }
   },
   mounted () {
-    
+    this.draw();
+  },
+  created () {
   },
   methods: {
     quanx(){
@@ -162,41 +164,27 @@ export default {
       this.quan_x = true;
       this.q_x = false;
     },
-    drawdata(){
-      let mycharts = this.$echarts.init(document.getElementById('mycharts'));
-      mycharts.setOption({
-          title : {
-              text: '座位信息',
-              x:'center',
-              textStyle: {
-                  fontFamily: '方正汉真广标简体',
-                  color: '#777c7c96',
-                  fontSize: 20,
-                  fontWeight: 'normal',
-                  fontStyle: 100,
-              },
-          },
-          series : [
-            {
-              type: 'pie',
-              radius : '80%',
-              label: {
-                  normal: {
-                      position: 'inner',
-                      // 隐藏指示线
-                      show : false
-                  }
-              },
-              center: ['50%', '50%'],
-              // 座位信息图表的颜色及占比
-              data:[
-                  {value:'', name:'',itemStyle: {color: 'rgb(230, 28, 28)'}},
-                  {value:'', name:'',itemStyle: {color: '#eeede2'}},
-              ],
-            }
-          ]
-      });
-    }, 
+    draw(){
+      var chart = this.$refs.ch;
+      var myChart = echarts.init(chart);
+      // 指定图表的配置项和数据
+      myChart.setOption(
+        {
+          series: [{
+            type: 'pie',
+            radius: '80%',
+            label: {
+              position: 'inner'
+            },
+            data: [
+              {value: 105, name: '已落座',selected: true},
+              {value: 15, name: '未落座'},
+            ],
+            color: ['#cfebc2','#f3726c']
+          }]
+        }
+      )
+    }
   },
   components:{
     Common,
@@ -244,7 +232,7 @@ export default {
               }
               .time{
                 width: 15%;
-                background-color: rgb(207, 235, 194);
+                background-color: #cfebc2;
                 border-radius: 10px;
                 ul{
                   height: 100%;
@@ -379,7 +367,6 @@ export default {
             }
             .shuju{
               height: 20%;
-              border: 0.1em solid #ccc;
               display: flex;
               justify-content: space-around;
               .class{
@@ -401,7 +388,7 @@ export default {
               justify-content: space-around;
               .tools{
                 width: 40%;
-                border: 0.1em solid #ccc;
+                border-top: 0.1em solid #ccc;
                 .student{
                   display: flex;
                   justify-content: space-around;
@@ -412,11 +399,11 @@ export default {
               }
               .chart{
                 width: 60%;
-                height: 100%;
-                border: 0.1em solid green;
+                height: 90%;
                 #mycharts{
-                  width: 80%;
-                  height:100%
+                  margin: auto;
+                  width: 100%;
+                  height: 100%;
                 }
               }
             }
