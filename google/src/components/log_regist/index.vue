@@ -298,18 +298,21 @@ export default {
                 this.change_state(resX, resY);
             }
         },
-        // 点击右侧按钮，模拟左滑
-        right_state() {
-            if(this.touch_flag) {
-                this.change_state(-100, 0);
-            }
-        },
+
         // 点击左侧按钮，模拟右滑
         left_state() {
             if(this.touch_flag) {
                 this.change_state(100, 0);
             }
         },
+
+        // 点击右侧按钮，模拟左滑
+        right_state() {
+            if(this.touch_flag) {
+                this.change_state(-100, 0);
+            }
+        },
+       
         change_state(resX, resY) {
             if( Math.abs(resY) < 100 ) {
                 if( resX > 0 ) {   // 向右滑
@@ -445,6 +448,25 @@ export default {
        
         confirm_pass() {
             this.password_show = false;
+            Toast.loading({
+                message: '正在登录...',
+                forbidClick: true,
+                overlay: true,
+                duration: 0,
+            });
+
+            console.log(this.checkLogin(this.phone_num))
+            Toast.clear();
+            // console.log(this.phone_num,this.pass_num);
+        },
+
+        async checkLogin(phone_num) {
+            let check_login_res = await this.axios.get('http://182.92.170.161:8080/shop/user/register_look', {
+                params: {
+                    u_id: phone_num
+                }
+            })
+            return check_login_res;
         }
     }
 }
