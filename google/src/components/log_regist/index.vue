@@ -447,27 +447,99 @@ export default {
         },
        
         confirm_pass() {
-            this.password_show = false;
+            let that = this;
+            
+            that.password_show = false;
+            that.loadingState('正在登录...')
+
+            that.axios.get('http://182.92.170.161:8080/shop/user/register_look', {
+                params: {
+                    u_phone: that.phone_num
+                }
+            }).then((res)=>{
+                
+                let checkState = res.data.status;
+
+                if(checkState == 200 || checkState == '200') {
+                    // 未注册
+                    that.loginRegisterFun(0);  // 0为注册
+                }
+                else if(checkState == 400 || checkState == '400') {
+                    // 已注册
+                    that.loginRegisterFun(1);  // 1为登录
+                }
+                else {
+                    // 位置错误
+                    this.$toast("未知错误");
+                }
+
+                Toast.clear();
+                
+                // console.log(res.data);
+            })
+
+        },
+        loginRegisterFun(stateFlag) { // 0为注册，1为登录
+            // 前往登录
+            let that = this;
+
+            let apiPath = stateFlag? 'login':'register';
+
+            that.axios.get('http://182.92.170.161:8080/shop/user/'+apiPath,{
+                params: {
+                    u_phone: that.phone_num,
+                    u_password: that.pass_num,
+                }
+            }).then((res)=> {
+                let status = res.data.status;
+
+                if(status == 200) {
+                    if(stateFlag == 1) {
+                        that.loadingState('登录成功，正在跳转...')
+                    }
+                    else if(stateFlag == 0) {
+                        that.loadingState('注册成功，正在跳转...')
+                    }
+                    else {
+                        that.loadingState('正在跳转...')
+                    }
+                    that.changePage();
+                }
+                else if(status == 400) {
+                    this.$toast(res.data.msg);
+                }
+                else {
+
+                }
+                console.log(res.data)
+            })
+        },
+        loadingState(msg) {
             Toast.loading({
-                message: '正在登录...',
+                message: msg,
                 forbidClick: true,
                 overlay: true,
                 duration: 0,
             });
-
-            console.log(this.checkLogin(this.phone_num))
-            Toast.clear();
-            // console.log(this.phone_num,this.pass_num);
         },
+        changePage() {
+            let pagePath = '';
 
-        async checkLogin(phone_num) {
-            let check_login_res = await this.axios.get('http://182.92.170.161:8080/shop/user/register_look', {
-                params: {
-                    u_id: phone_num
-                }
+            if(this.iden_text_choose == '学生') {
+                pagePath = 'stu';
+            }
+            else if(this.iden_text_choose == '老师') {
+                pagePath = 'curriculum';
+            }
+            else if(this.iden_text_choose == '管理员') {
+                pagePath = 'admin';
+            }
+            this.$router.push({
+                name: pagePath
             })
-            return check_login_res;
+            Toast.clear();
         }
+        
     }
 }
 </script>
