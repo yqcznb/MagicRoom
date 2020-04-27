@@ -18,7 +18,7 @@
               <div class="name">
                 <ul> 
                   <li v-for="(item,index) in names" :key="index">
-                    <span class="classname">{{item.name}}<i class="xq">{{item.xq}}</i></span>
+                    <span class="classname">{{item.name}}{{item.xq}}</span>
                   </li>
                 </ul>
               </div>
@@ -71,7 +71,7 @@
               </div>
               <div class="renshu">
                 <span>已落座</span>
-                <span>105/120</span>
+                <span>{{lzrs}}/{{zrs}}</span>
               </div>
             </div>
             <div class="charts">
@@ -106,6 +106,8 @@ import echarts from 'echarts';
 export default {
   data () {
     return {
+      zrs: 125,
+      lzrs: 55,
       value: 4,
       slider: 5,
       result: [],
@@ -175,14 +177,20 @@ export default {
           series: [{
             type: 'pie',
             radius: '80%',
-            label: {
-              position: 'inner'
-            },
             data: [
-              {value: 105, name: '已落座',selected: true},
-              {value: 15, name: '未落座/15'},
+              {value: this.lzrs, name: '已落座',selected: true},
+              {value: this.zrs-this.lzrs, name: '未落座'},
             ],
-            color: ['#cfebc2','#f3726c']
+            color: ['#cfebc2','#f3726c'],
+            itemStyle:{ 
+              normal:{ 
+                  label:{ 
+                    position: 'inner',
+                    show: true, 
+                    formatter: '{b} : {c}' 
+                  }, 
+              } 
+						} 
           }]
         }
       )
@@ -257,7 +265,7 @@ export default {
                 }
               }
               .name{
-                width: 60%;
+                width: 65%;
                 ul{
                   height: 100%;
                   display: flex;
@@ -265,16 +273,11 @@ export default {
                   justify-content: space-between;
                   li{
                     flex-grow: 1;
-                    overflow: hidden;
-                    .classname{
+                    span{
                       background-color: #ccc;
                       border-radius: 2em;
-                    }
-                    .xq{
-                      float: right;
-                      color: #d33a31;
-                      font-size: 0.4em;
-                      padding: 0.4em 0;
+                      padding: 0 10px;
+                      line-height: 2em;
                     }
                   }
                   li:nth-child(1){
@@ -283,7 +286,7 @@ export default {
                     span{
                       background-color: #ccc;
                       border-radius: 2em;
-                      padding: 0 3em;
+                      padding: 0 4em;
                     }
                   }
                   li:nth-child(5),li:nth-child(9){
@@ -293,7 +296,7 @@ export default {
                     span{
                       background-color: #ccc;
                       border-radius: 2em;
-                      padding: 0 3em;
+                      padding: 0 4em;
                     }
                   }
                 }
