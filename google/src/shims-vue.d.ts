@@ -3,4 +3,5 @@ declare module '*.vue' {
   export default Vue
 }
 declare module 'better-scroll'
-declare module 'vue-touch
+declare module 'vue-touch'
+declare module 'echarts'

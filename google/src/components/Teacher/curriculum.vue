@@ -6,7 +6,7 @@
           <div class="timetable">
             <div class="table">
               <div :style="{ height: '100%' }">
-                <van-slider v-model="value" :step='15' vertical />
+                <van-slider v-model="value" @change="onSlider" vertical />
               </div>
               <div class="time">
                 <ul> 
@@ -18,7 +18,7 @@
               <div class="name">
                 <ul> 
                   <li v-for="(item,index) in names" :key="index">
-                    <span>{{item.name}}<span class="xq">{{item.xq}}</span></span>
+                    <span class="classname">{{item.name}}{{item.xq}}</span>
                   </li>
                 </ul>
               </div>
@@ -71,7 +71,7 @@
               </div>
               <div class="renshu">
                 <span>已落座</span>
-                <span>105/120</span>
+                <span>{{lzrs}}/{{zrs}}</span>
               </div>
             </div>
             <div class="charts">
@@ -106,7 +106,10 @@ import echarts from 'echarts';
 export default {
   data () {
     return {
-      value: 3,
+      zrs: 125,
+      lzrs: 55,
+      value: 4,
+      slider: 5,
       result: [],
       touxiang: '3',
       q_x: false,
@@ -150,6 +153,7 @@ export default {
   },
   mounted () {
     this.draw();
+    this.onSlider();
   },
   created () {
   },
@@ -173,17 +177,26 @@ export default {
           series: [{
             type: 'pie',
             radius: '80%',
-            label: {
-              position: 'inner'
-            },
             data: [
-              {value: 105, name: '已落座',selected: true},
-              {value: 15, name: '未落座'},
+              {value: this.lzrs, name: '已落座',selected: true},
+              {value: this.zrs-this.lzrs, name: '未落座'},
             ],
-            color: ['#cfebc2','#f3726c']
+            color: ['#cfebc2','#f3726c'],
+            itemStyle:{ 
+              normal:{ 
+                  label:{ 
+                    position: 'inner',
+                    show: true, 
+                    formatter: '{b} : {c}' 
+                  }, 
+              } 
+						} 
           }]
         }
       )
+    },
+    onSlider(){
+      this.value = this.value + this.slider;
     }
   },
   components:{
@@ -246,16 +259,13 @@ export default {
                     padding-top: 0.5em;
                     flex-grow: 2;
                   }
-                  li:nth-child(5){
+                  li:nth-child(5),li:nth-child(9){
                     flex-grow: 3;
-                  }
-                  li:nth-child(9){
-                    flex-grow: 2;
                   }
                 }
               }
               .name{
-                width: 60%;
+                width: 65%;
                 ul{
                   height: 100%;
                   display: flex;
@@ -263,21 +273,31 @@ export default {
                   justify-content: space-between;
                   li{
                     flex-grow: 1;
-                    overflow: hidden;
-                    .xq{
-                      float: right;
-                      color: #d33a31;
+                    span{
+                      background-color: #ccc;
+                      border-radius: 2em;
+                      padding: 0 10px;
+                      line-height: 2em;
                     }
                   }
                   li:nth-child(1){
                     padding-top: 0.5em;
                     flex-grow: 2;
+                    span{
+                      background-color: #ccc;
+                      border-radius: 2em;
+                      padding: 0 4em;
+                    }
                   }
-                  li:nth-child(5){
+                  li:nth-child(5),li:nth-child(9){
                     flex-grow: 3;
                   }
-                  li:nth-child(9){
-                    flex-grow: 2;
+                  li:nth-last-child(1),li:nth-last-child(2){
+                    span{
+                      background-color: #ccc;
+                      border-radius: 2em;
+                      padding: 0 4em;
+                    }
                   }
                 }
               }
