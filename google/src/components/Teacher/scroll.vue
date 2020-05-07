@@ -9,7 +9,6 @@
                 </li>
             </ul>
         </div>
-        <img src="../../assets/img/admin/kedu.png" alt="">
     </div>
 </template>
 
@@ -128,33 +127,25 @@ export default {
     .mv-tabs{
         margin-top: 3em;
         width: 100%;
-        background: #FFFDF9;
-        position: relative;
-        >img{
-          height: 22px;
-          position: absolute;
-          top: 16px;
-        }
         .tabs{
-            height: 2.2rem;
+            height: 2.5rem;
             width: 100%;
-            line-height: 2rem;
+            line-height: 2.5rem;
             box-sizing: border-box;
             overflow: hidden;
             white-space: nowrap;
             border-bottom: 0.1em solid rgb(236, 235, 235);
             .tab{
-                padding-left: 160px;
                 margin: 0 auto 0;
                 .tab-item{
                     float: left;
-                    width: 60px;
+                    width: 80px;
                     height: 40px;
                     text-align: center;
                     .tab-link{
                         padding-bottom: 5px;
                         color: #333333;
-                        font-size: 14px;
+                        color: #d33a31;
                         box-sizing: border-box;
                     }
                 }

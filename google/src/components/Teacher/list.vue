@@ -14,91 +14,29 @@
     <!-- 内容区域 -->
     <div class="content">
       <div>
-        <div class="bq">A</div>
+        <span>A</span>
         <ul>
             <li>
-              <div class="item" @click="showPopup">
-                <div>A前端框架应用试验</div>
-                <img src="../../assets/img/admin/detail.png" alt="">
-              </div>
+            <van-cell is-link @click="showPopup">111</van-cell>
+            <van-popup v-model="show" position="right" :style="{ width: '40%',height: '100%' }">内容</van-popup>
             </li>
             <li>
-                <div class="item" @click="showPopup">
-                  <div>A前端框架应用试验</div>
-                  <img src="../../assets/img/admin/detail.png" alt="">
-                </div>
+                <van-cell is-link @click="showPopup">111</van-cell>
+                <van-popup v-model="show" position="right" :style="{ width: '40%',height: '100%' }">内容</van-popup>
             </li>
         </ul>
       </div>
       <div>
-        <div class="bq">B</div>
-        <ul>
-            <li>
-              <div class="item" @click="showPopup">
-                <div>B前端框架应用试验</div>
-                <img src="../../assets/img/admin/detail.png" alt="">
-              </div>
-            </li>
-            <li>
-                <div class="item" @click="showPopup">
-                  <div>B前端框架应用试验</div>
-                  <img src="../../assets/img/admin/detail.png" alt="">
-                </div>
-            </li>
-        </ul>
+        <span>B</span>
       </div>
       <div>
-        <div class="bq">C</div>
-        <ul>
-            <li>
-              <div class="item" @click="showPopup">
-                <div>C前端框架应用试验</div>
-                <img src="../../assets/img/admin/detail.png" alt="">
-              </div>
-            </li>
-            <li>
-                <div class="item" @click="showPopup">
-                  <div>C前端框架应用试验</div>
-                  <img src="../../assets/img/admin/detail.png" alt="">
-                </div>
-            </li>
-        </ul>
+        <span>C</span>
       </div>
       <div>
-        <div class="bq">D</div>
-        <ul>
-            <li>
-              <div class="item" @click="showPopup">
-                <div>D前端框架应用试验</div>
-                <img src="../../assets/img/admin/detail.png" alt="">
-              </div>
-            </li>
-            <li>
-                <div class="item" @click="showPopup">
-                  <div>D前端框架应用试验</div>
-                  <img src="../../assets/img/admin/detail.png" alt="">
-                </div>
-                
-            </li>
-        </ul>
+        <span>D</span>
       </div>
       <div>
-        <div class="bq">E</div>
-        <ul>
-            <li>
-              <div class="item" @click="showPopup">
-                <div>E前端框架应用试验</div>
-                <img src="../../assets/img/admin/detail.png" alt="">
-              </div>
-            </li>
-            <li>
-                <div class="item" @click="showPopup">
-                  <div>E前端框架应用试验</div>
-                  <img src="../../assets/img/admin/detail.png" alt="">
-                </div>
-                
-            </li>
-        </ul>
+        <span>E</span>
       </div>
     </div>
     <!-- 导航区域 -->
@@ -119,52 +57,6 @@
         E
       </li>
     </ul>
-    <van-popup v-model="show" class="popup-detail" position="right" :style="{ width: '50%',height: '100%' }">
-      <div class="color-888 text-l">课程名</div>
-      <div class="text-l">A前端框架应用试验</div>
-      <div>
-        <div class="color-888 pull-left">学时</div>
-        <div class="pull-right">48学时</div>
-        <div class="clear-both"></div>
-      </div>
-      <div>
-        <div class="color-888 pull-left">学分</div>
-        <div class="pull-right">2学时</div>
-        <div class="clear-both"></div>
-      </div>
-       <div class="color-888 text-l">班级</div>
-      <div class="text-l">2017级软件1.2班</div>
-      <div>
-        <div class="color-888 pull-left">授课时间</div>
-        <div class="pull-right">1-18周</div>
-        <div class="clear-both"></div>
-      </div>
-      <div class="text-r">单周</div>
-      <div class="text-r">周一1，2节</div>
-      <div class="color-888 text-l">学生名单</div>
-      <table border="0">
-        <tr>
-          <th>NO</th>
-          <th>学号</th>
-          <th>姓名</th>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>20170000000</td>
-          <td>王欢欢</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>20170000000</td>
-          <td>王欢欢</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>20170000000</td>
-          <td>王欢欢</td>
-        </tr>
-      </table>
-    </van-popup>
   </div>
 </template>
 
@@ -214,11 +106,6 @@ export default {
     },
     // 跳转到指定索引的元素
     scrollTo(index) {
-      if(index==0){
-        document.documentElement.scrollTop = 0
-        document.body.scrollTop = 0
-        return true
-      }
       // 获取目标的 offsetTop
       // css选择器是从 1 开始计数，我们是从 0 开始，所以要 +1
       const targetOffsetTop = document.querySelector(`.content div:nth-child(${index + 1})`).offsetTop
@@ -241,7 +128,7 @@ export default {
           // 如果和目标相差距离大于等于 STEP 就跳 STEP
           // 否则直接跳到目标点，目标是为了防止跳过了。
           if (targetOffsetTop - scrollTop >= STEP) {
-            scrollTop = scrollTop + STEP
+            scrollTop += STEP
           } else {
             scrollTop = targetOffsetTop
           }
@@ -270,37 +157,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.pull-left{
-  float: left;
-}
-.pull-right{
-  float: right;
-}
-.clear-both{
-  clear: both;
-}
-.text-r{
-  text-align: right;
-}
-.text-l{
-  text-align: left;
-}
-.color-888{
-  color:#888;
-}
 *{margin: 0;padding: 0;list-style: none;}
     #title{
-        background: #F9F7F7;
+        background: #FFFDF9;
         width: 100%;
         height: 100%;
         .top{
+            margin-top: 0.5em;
             width: 100%;
-            position: fixed;
-            top: 0;
-            z-index: 99999;
-            background: #FFFDF9;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
+            // margin-bottom: 1em;
             overflow: hidden;
             .left{
                 width: 100%;
@@ -318,35 +183,19 @@ export default {
     }
   /* 内容区的样式 */
   .content {
+    background-color: white;
     width: 100%;
     overflow: hidden;
-    padding-top: 54px;
-    .bq{
-      padding:10px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
   }
-  .content li{
-    border-bottom: 1px solid #ddd;
-  }
-  .content .item{
+  .content div {
+    width: 100%;
+    height: 20em;
     background: #FFFDF9;
-    position: relative;
-    height: 3em;
-    line-height: 3em;
-    >div{
-      font-size: 16px;
-      margin-left: 10px;
-      text-align: left;
-    }
-    img{
-      position: absolute;
-      width: 30px;
-      z-index: 999;
-      right: 40px;
-      top: 8px;
-    }
+    border-top: 0.1em solid #e9e5e5;
+  }
+  .content div:nth-child(2n) {
+    background: #FFFDF9;
+    border-bottom: 0.1em solid #ccc;
   }
   .content li{
       width: 100%;
@@ -358,7 +207,7 @@ export default {
     top: 12em;
     right: 0.1em ;
     /* background-color: #efefef; */
-    z-index: 1000;
+    z-index: 30;
   }
   .navs li {
     padding: 0 20px;
@@ -368,24 +217,5 @@ export default {
   /* 当导航被点亮后改变颜色 */
   .navs .active{
     color: #d3cece;
-  }
-  .van-popup.van-popup--right{
-    background: #FFFDF9;
-  }
-  .popup-detail{
-    font-size: 14px;
-    padding: 0px 10px;
-    >div{
-      padding: 5px 0px;
-    }
-    table{
-      border: 1px solid #eee;
-      width: 100%;
-      border-radius: 10px;
-      color: #666;
-      th{
-        border-bottom: 1px solid #eee;
-      }
-    }
   }
 </style>
