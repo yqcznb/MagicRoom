@@ -20,6 +20,11 @@ const routes = [
     component: () => import("../components/Teacher/curriculum.vue")
   },
   {
+    path: "/classRoom",
+    name: "classRoom",
+    component: () => import("../components/Teacher/classRoom.vue")
+  },
+  {
     path: "/list",
     name: "list",
     component: () => import("../components/Teacher/list.vue")
