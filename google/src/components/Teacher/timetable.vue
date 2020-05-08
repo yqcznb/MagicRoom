@@ -149,18 +149,22 @@ export default {
         this.value = 75
       }
     }else if(myDate.getHours()==18){
-      this.value = 75
+      if(myDate.getMinutes()<30){
+        this.value =  75
+      }else{
+        this.value = 75
+      }
     }else if(myDate.getHours()==19){
       if(myDate.getMinutes()<55){
-        this.value =  67
-      }else{
-        this.value = 83
-      }
-    }else if(myDate.getHours()==20){
-      if(myDate.getMinutes()<40){
         this.value =  83
       }else{
         this.value = 90
+      }
+    }else if(myDate.getHours()==20){
+      if(myDate.getMinutes()<10){
+        this.value =  90
+      }else{
+        this.value = 94
       }
     }else if(myDate.getHours()>20){
       this.value = 94
@@ -174,7 +178,11 @@ export default {
       this.value = this.value + this.slider;
     },
     weekBtn(data){
-      this.week = data
+      if(this.week == data){
+        this.week=-1
+      }else{
+        this.week = data
+      }
     }
   },
 }
@@ -268,8 +276,8 @@ export default {
                       color: #FBA66A;
                       padding-left: 5px;
                       position: absolute;
-                      right: 3px;
-                      top: 2px;
+                      right: 5px;
+                      font-size: 12px;
                     }
                   }
                   &:nth-child(2n){
@@ -300,6 +308,7 @@ export default {
             display: inline-block;
             width: 20%;
             height: 100%;
+            margin-top: 13px;
             ul{
               height: 100%;
               display: flex;
@@ -365,7 +374,7 @@ export default {
               color:#FBA66A;
               position: absolute;
               right: 5px;
-              top: 0px;
+              top: 2px;
               font-size: 14px;
             }
           }
