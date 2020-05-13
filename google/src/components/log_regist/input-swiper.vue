@@ -28,12 +28,18 @@
             <!-- 验证码 -->
             <van-swipe-item>
                 <div class="verify-view choose-view" v-if="pass_verify">
-                    <van-field v-model="verify_num" type="digit" maxlength="6" placeholder="请输入验证码"></van-field>
+                    <van-field
+                     v-model="verify_num"
+                     type="digit"
+                     maxlength="5"
+                     placeholder="请输入验证码"
+                     @blur="captchaLogRegist">
+                     </van-field>
                     <span class="verify-btn" :class="verify_btn_class" ref="verify_btn" v-text="verify_btn_text?verify_btn_text:'点击获取'" @click="sendVerify"></span>
                 </div>
                 <div class="change-pass" v-show="have_regist && pass_verify" @click="()=>{pass_verify
                      = false}">
-                    <span>无法接收短信？用密码登录</span>
+                    <span>无法获取短信？用密码登录</span>
                 </div>
                 <div class="password-view choose-view" v-if="!pass_verify">
                     <van-field v-model="password" type="password" maxlength="16" placeholder="请输入密码"></van-field>
@@ -44,20 +50,21 @@
                     <span>短信验证码登录</span>
                 </div>
             </van-swipe-item>
-           
         </van-swipe>
 
         <van-popup
          v-model="popup_identity"
          position="bottom">
-            <identity-picker @confirm-identity="confirmIdentity"
-            @cancel-identity="cancelIdentity"></identity-picker>
+            <identity-picker 
+             @confirm-identity="confirmIdentity"
+             @cancel-identity="cancelIdentity">
+            </identity-picker>
         </van-popup>
 
     </div>
 </template>
 <script>
-import { checkRegist } from './api/index.js'
+import { checkRegist, sendCaptcha, captchaRegist } from './api/index.js'
 import identityPicker from './identity-picker'
 export default {
     name: 'log-regist-swiper',
@@ -92,6 +99,11 @@ export default {
 
             // 是否显示密码验证码切换
             have_regist: false,
+
+            // 注册信息
+            regist_info: null,
+            // 登录信息
+            log_info: null,
         }
     },
     
@@ -119,9 +131,36 @@ export default {
             if(this.disabled) {
                 this.disabled = false;
                 this.verify_btn_class = 'verify-btn-active';
+
+                // 发送验证码
+                sendCaptcha(_this.phone_num)
+                    .then((res)=>{
+                        let result = res.data;
+                        if(result.status == 200) {
+                            // time & md5
+                            _this.regist_info = result.data;
+                            _this.log_info = result.data;
+
+                            // 手机号
+                            _this.regist_info.phone = _this.phone_num;
+                            _this.log_info.phone = _this.phone_num;
+
+                            // 验证码
+                            _this.regist_info.captcha = _this.verify_num;
+                             
+
+                            // 身份
+                            _this.regist_info.type = _this.iden_text;
+                            console.log(_this.regist_info);
+                        }
+                    })
+                    .catch((err)=>{
+                        console.log(err)
+                    });
+
                 setTimeout(()=>{
                     this.verify_btn_class = 'verify-btn-static';
-                }, 62000)
+                }, 62000)   // 62秒
 
                 var counting = setInterval(()=>{
                     countDown()
@@ -157,6 +196,18 @@ export default {
             }).catch((err)=>{
                 console.log(err)
             });
+        },
+
+        // 短信验证码登录注册
+        captchaLogRegist() {
+            let regist_info = this.regist_info;
+            
+            captchaRegist(this.have_regist, regist_info)
+                .then((res)=>{
+                    console.log(res)
+                }).catch((err)=>{
+                    console.log(err)
+                })
         }
     }
 }

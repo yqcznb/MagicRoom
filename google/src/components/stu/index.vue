@@ -3,7 +3,10 @@
      @touchstart="beforeAct" @touchmove.prevent="inAct" @touchend="endAct">
         <Common :touxiang="identify_code"></Common>
         <div class="placeholder_bar"></div>
-
+        <div class="course-list">
+            <Scroll></Scroll>
+            <timetable></timetable>
+        </div>
         <div class="live_course">
             <van-row gutter="10" type="flex" align="center">
                 <van-col span="4" class="live_ico" >
@@ -29,9 +32,15 @@
 </template>
 <script>
 import Common from '../Admin/common';
+import Scroll from '../Teacher/scroll';
+import Timetable from '../Teacher/timetable';
 export default {
     name: 'stu',
-    components: { Common },
+    components: { 
+        Common,
+        Scroll,
+        Timetable
+    },
     data() {
         return {
             identify_code: '2',
@@ -137,12 +146,14 @@ export default {
 .stu {
     height: 100vh;
     background-color: #f9f7f7;
+    .course-list {
+        .mv-tabs {
+            margin-top: 0;
+        }
+    }
     .live_course {
         background-color: white;
-        margin: 0 1em;
-        // 效果预览
-        margin-top: 20vh;
-        
+        margin: 1em;
         border-radius: 0.68ex;
         box-shadow: 0 0 4px 4px rgba(210, 210, 210, 0.8);
         .van-row {
