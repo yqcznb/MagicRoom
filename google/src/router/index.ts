@@ -94,6 +94,11 @@ const routes = [
   { path: "/setzw",
     name: "setzw",
     component: () => import("@/components/Admin/setzw.vue")
+  },
+  {
+    path: "/common",
+    name: 'common',
+    component: ()=> import('@/components/common/index.vue')
   }
  
 ]

@@ -31,7 +31,7 @@
                     <van-field
                      v-model="verify_num"
                      type="digit"
-                     maxlength="5"
+                     maxlength="6"
                      placeholder="请输入验证码"
                      @blur="captchaLogRegist">
                      </van-field>
@@ -106,7 +106,16 @@ export default {
             log_info: null,
         }
     },
-    
+    mounted(){
+        let router_name = localStorage.getItem('router_name');
+
+        if(router_name) {
+            this.$router.push({
+                name: router_name,
+            })
+        }
+
+    },
     methods: {
         onChange(index) {
             // this.$toast('当前 Swipe 索引：' + index);
@@ -201,13 +210,40 @@ export default {
         // 短信验证码登录注册
         captchaLogRegist() {
             let regist_info = this.regist_info;
-            
-            captchaRegist(this.have_regist, regist_info)
-                .then((res)=>{
-                    console.log(res)
-                }).catch((err)=>{
-                    console.log(err)
-                })
+            let log_info = this.log_info
+            let router_name='';
+
+            console.log(this.iden_text);
+            switch(this.iden_text){
+                case '学生':
+                    router_name = 'stu';
+                    break;
+                
+                case '老师':
+                    router_name = 'curriculum';
+                    break;
+
+                case '管理员':
+                    router_name = 'admin'
+                    break;
+                
+                default: 
+                    router_name = 'common'
+                    break;
+            }
+
+            this.$router.push({ 
+                name: router_name, 
+            })
+
+            localStorage.setItem('router_name', router_name);
+
+            // captchaRegist(this.have_regist, log_info, regist_info)
+            //     .then((res)=>{
+            //         console.log(res)
+            //     }).catch((err)=>{
+            //         console.log(err)
+            //     })
         }
     }
 }
