@@ -53,7 +53,7 @@
        <div class="class_list">
           <div class="list_top">
             <div class="quanxuan">
-              <input type="checkbox" name="quanxuan" id="quanxuan">全选
+              <input type="checkbox" name="quanxuan" id="quanxuan" @click="checkAll">全选
             </div>
             <div class="class_mu">
               教室列表
@@ -64,12 +64,10 @@
                 <div>入口</div><div>选择</div> <div>教室</div> <div>所属院系</div><div>状态</div>
             </div>
             <div class="lei" v-for="list in 10" :key="list">
-                <router-link to="/setzw">
                    <svg class="icon" aria-hidden="true" @click="tiao">
                     <use xlink:href="#iconrukou"></use>
                   </svg>
-                </router-link>
-                  <input type="checkbox" name="quanxuan" id="quanxuan">
+                  <input type="checkbox" ref="che" name="quanxuan" id="quanxuan">
                   <div>1308</div>
                   <div>信息工程学院</div>
                   <div>
@@ -156,6 +154,11 @@ export default{
       this.slide.destroy()
     },
     methods:{
+       checkAll(){
+        this.$refs.che.filter(item=>{
+          item.checked = !item.checked;
+        })
+　　},
       tiao(){
         this.$router.push({
            path:'/setzw',
