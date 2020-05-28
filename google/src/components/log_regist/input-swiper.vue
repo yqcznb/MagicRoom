@@ -37,12 +37,12 @@
                      </van-field>
                     <span class="verify-btn" :class="verify_btn_class" ref="verify_btn" v-text="verify_btn_text?verify_btn_text:'点击获取'" @click="sendVerify"></span>
                 </div>
-                <div class="change-pass" v-show="have_regist && pass_verify" @click="()=>{pass_verify
+                <div class="change-pass" v-show=" pass_verify" @click="()=>{pass_verify
                      = false}">
-                    <span>无法获取短信？用密码登录</span>
+                    <span>无法获取短信？用密码咯</span>
                 </div>
                 <div class="password-view choose-view" v-if="!pass_verify">
-                    <van-field v-model="password" type="password" maxlength="16" placeholder="请输入密码"></van-field>
+                    <van-field v-model="password" type="password" maxlength="16" placeholder="请输入密码" @blur="passwordLogRegist"></van-field>
                 </div>
                 <div class="change-verify" 
                  v-show="!pass_verify"
@@ -64,7 +64,9 @@
     </div>
 </template>
 <script>
-import { checkRegist, sendCaptcha, captchaRegist } from './api/index.js'
+import { mapState, mapMutations } from 'vuex'
+
+import { checkRegist, sendCaptcha, captchaRegist, passRegistLogin } from './api/index.js'
 import identityPicker from './identity-picker'
 export default {
     name: 'log-regist-swiper',
@@ -117,6 +119,7 @@ export default {
 
     },
     methods: {
+        ...mapMutations([ 'updateUserInfo' ]),
         onChange(index) {
             // this.$toast('当前 Swipe 索引：' + index);
         },
@@ -126,54 +129,83 @@ export default {
             let _this = this;
             let count_down = 60;
             
-            function countDown() {
-                if(count_down<0) {
-                    clearInterval(counting);
-                    _this.verify_btn_text = '点击获取';
-                    _this.disabled = true;
+            if(_this.phone_num) {
+
+                function countDown() {
+                    if(count_down<0) {
+                        clearInterval(counting);
+                        _this.verify_btn_text = '点击获取';
+                        _this.disabled = true;
+                    }
+                    else {
+                        _this.verify_btn_text = count_down-- +'s';
+                    }
                 }
-                else {
-                    _this.verify_btn_text = count_down-- +'s';
+                
+                if(this.disabled) {
+                    let _this = this;
+
+                    this.disabled = false;
+                    this.verify_btn_class = 'verify-btn-active';
+
+                    // 发送验证码
+                    sendCaptcha(_this.phone_num)
+                        .then((res)=>{
+                            console.log(res)
+                            let result = res.data;
+                            if(result.status == 200) {
+                                // time & md5
+                                _this.regist_info = result.data;
+                                _this.log_info = result.data;
+
+                                let type = 0
+                                switch(_this.iden_text) {
+                                    case '学生':
+                                        type = 1;
+                                        break;
+                                    case '老师':
+                                        type = 2;
+                                        break;
+                                    case '管理员':
+                                        type = 3;
+                                        break;
+                                    default:
+                                        type = 0;
+                                        break;
+                                }
+
+                                let regist_info = {
+                                    phone: _this.phone_num,
+                                    type: _this.type,
+                                    ...result.data
+                                }
+
+                                let log_info = {
+                                    phone: _this.phone_num,
+                                    ...result.data
+                                }
+
+                                _this.regist_info = regist_info
+                                _this.log_info = log_info
+
+                            }
+                        })
+                        .catch((err)=>{
+                            console.log(err)
+                        });
+
+                    setTimeout(()=>{
+                        this.verify_btn_class = 'verify-btn-static';
+                    }, 62000)   // 62秒
+
+                    var counting = setInterval(()=>{
+                        countDown()
+                    }, 1000);
                 }
+
             }
-            
-            if(this.disabled) {
-                this.disabled = false;
-                this.verify_btn_class = 'verify-btn-active';
-
-                // 发送验证码
-                sendCaptcha(_this.phone_num)
-                    .then((res)=>{
-                        let result = res.data;
-                        if(result.status == 200) {
-                            // time & md5
-                            _this.regist_info = result.data;
-                            _this.log_info = result.data;
-
-                            // 手机号
-                            _this.regist_info.phone = _this.phone_num;
-                            _this.log_info.phone = _this.phone_num;
-
-                            // 验证码
-                            _this.regist_info.captcha = _this.verify_num;
-                             
-
-                            // 身份
-                            _this.regist_info.type = _this.iden_text;
-                            console.log(_this.regist_info);
-                        }
-                    })
-                    .catch((err)=>{
-                        console.log(err)
-                    });
-
-                setTimeout(()=>{
-                    this.verify_btn_class = 'verify-btn-static';
-                }, 62000)   // 62秒
-
-                var counting = setInterval(()=>{
-                    countDown()
-                }, 1000);
+            else {
+                this.$toast('请输入手机号')
             }
         },
         confirmIdentity(value) {
@@ -209,41 +241,97 @@ export default {
 
         // 短信验证码登录注册
         captchaLogRegist() {
+            let _this = this;
+
             let regist_info = this.regist_info;
             let log_info = this.log_info
-            let router_name='';
+            
+            let key = 'captcha';
 
-            console.log(this.iden_text);
-            switch(this.iden_text){
-                case '学生':
-                    router_name = 'stu';
-                    break;
-                
-                case '老师':
-                    router_name = 'curriculum';
-                    break;
+            this.regist_info[key] = this.verify_num;
+            this.log_info[key] = this.verify_num;
 
-                case '管理员':
-                    router_name = 'admin'
+            // this.loginJump()
+            // console.log(log_info)
+            // console.log(regist_info)
+
+            captchaRegist(this.have_regist, log_info, regist_info)
+                .then((res)=>{
+                    if(res.data.status == '200') {
+                        if(_this.have_regist) {
+                            _this.loginJump(res)
+                        }
+                        else {
+                            // 注册
+                            console.log(res)
+                        }
+                    }
+                    
+
+                }).catch((err)=>{
+                    console.log(err)
+                })
+        },
+
+        passwordLogRegist(e) {
+            let _this = this
+
+            let log_data={
+                phone: this.phone_num,
+                password: this.password,
+            };
+
+            let regist_data = {
+                phone: this.phone_num,
+                type: this.iden_text,
+                password: this.password
+            }
+
+            passRegistLogin(this.have_regist, log_data, regist_data).then((res)=>{
+                if(_this.have_regist) {
+                    _this.loginJump(res)
+                }
+                else {
+                    // 注册
+                    console.log(res)
+                }
+            }).catch((err)=>{
+                console.log(err)
+            })
+        },
+
+        // 登录跳转
+        loginJump(res) {
+            let _this =this;
+
+            let name=''
+            // 登录
+            _this.updateUserInfo({
+                user_info: res.data.data
+            })
+            
+            localStorage.setItem('user_info', res.data.data);
+
+            switch(res.data.data.u_type) {
+                case 1:
+                    name='stu';
                     break;
-                
-                default: 
-                    router_name = 'common'
+                case 2:
+                    name='curriculum';
+                    break;
+                case 3:
+                    name='admin';
+                    break;
+                default:
+                    name='common';
                     break;
             }
 
             this.$router.push({ 
-                name: router_name, 
+                name: name, 
             })
 
-            localStorage.setItem('router_name', router_name);
-
-            // captchaRegist(this.have_regist, log_info, regist_info)
-            //     .then((res)=>{
-            //         console.log(res)
-            //     }).catch((err)=>{
-            //         console.log(err)
-            //     })
+            localStorage.setItem('router_name', name);
         }
     }
 }

@@ -15,9 +15,9 @@ export default {
     data() {
         return {
             identity_list: [
-                '老师',
-                '学生',
-                '管理员'
+                '老师',       // 2
+                '学生',       // 1
+                '管理员'      // 3
             ]
         }
     },

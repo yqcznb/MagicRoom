@@ -15,6 +15,7 @@
     </div>
 </template>
 <script>
+import { mapState, mapMutations } from 'vuex'
 import lRSwiper from './input-swiper.vue'
 export default {
     name: 'log_regist',
@@ -26,14 +27,22 @@ export default {
             logo: 'https://upload-images.jianshu.io/upload_images/19325457-a8a3cea6c0e07514.png',
         }
     },
+    computed: {
+        ...mapState([ 'user_info' ]),
+    },
     mounted() {
-        
+        let data = localStorage.getItem('user_info')
+        if(data) {
+            this.updateUserInfo({
+                user_info: data
+            })
+        }
     },
     watch: {
         
     },
     methods: {
-        
+        ...mapMutations([ 'updateUserInfo' ])
         
     }
 }
