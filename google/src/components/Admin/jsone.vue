@@ -17,11 +17,11 @@
           <div class="banner-wrapper">
             <div class="slide-banner-scroll" ref="slide">
               <div class="slide-banner-wrapper">
-                <div class="slide-item" v-for="list in lists" :key="list.id" :style="list.icon">
+                <div class="slide-item" v-for="list in lists[0]" :key="list.b_id" :style="classbg(list.b_id)">
                     <div class="chen">
-                        <span>{{list.one}}</span>
-                         <span>{{list.two}}</span>
-                          <span v-if="list.id%2==1">
+                        <span>{{list.b_name}}</span>
+                         <span>Teaching building {{list.b_id}}</span>
+                          <span v-if="list.b_id%2==1">
                             <svg class="icon" aria-hidden="true">
                               <use xlink:href="#iconfangjian2"></use>
                             </svg>
@@ -115,45 +115,45 @@ export default{
      bu_num:4,
      item:"",
      lists:[
-       {one:"1号教学楼",two:"Teaching building 1",id:1,
-       'icon': {
-            backgroundImage:
-            "url(" + require('../../assets/img/admin/jiaoxuelou1.png') + ")",
-          },
-          floor:4
-       },
-       {one:"2号教学楼",two:"Teaching building 2",id:2,
-       'icon': {
-            backgroundImage:
-            "url(" + require('../../assets/img/admin/jiaoxuelou2.png') + ")",
-          },
-          floor:5
-       },
-       {one:"3号教学楼",two:"Teaching building 3",id:3,
-       'icon': {
-            backgroundImage:
-            "url(" + require('../../assets/img/admin/jiaoxuelou3.png') + ")",
-          },
-          floor:6
-       },
-       {one:"4号教学楼",two:"Teaching building 4",id:4,
-       'icon': {
-            backgroundImage:
-            "url(" + require('../../assets/img/admin/jiaoxuelou4.png') + ")",
-          },
-          floor:4
-       },
+      //  {one:"4号教学楼",two:"4",id:4,
+      //  'icon': {
+      //       backgroundImage:
+      //       "url(" + require('../../assets/img/admin/jiaoxuelou4.png') + ")",
+      //     },
+      //     floor:4
+      //  },
      ]
     }
   },
+  created(){
+    this.jiekou()
+   
+  },
    mounted(){
-    this.init()
    },
    beforeDestroy() {
       clearTimeout(this.playTimer)
       this.slide.destroy()
     },
     methods:{
+      jiekou(){
+        var that =this;
+        return new Promise(function (resolve, reject){
+        that.axios.get('http://182.92.170.161:8080/shop/admin/build_all_look',{
+           params: {
+                    u_id:3
+                  }
+        }).then(res=>{
+           resolve( that.lists.push(res.data.data))
+        })
+        .catch(err=>{
+            alert('网络错误，不能访问jsone');
+        })
+      }).then(()=>{
+         that.init()
+      })
+        
+      },
        checkAll(){
         this.$refs.che.filter(item=>{
           item.checked = !item.checked;
@@ -167,6 +167,12 @@ export default{
           }
         });
       },
+      classbg(item){
+        return {
+          backgroundImage:
+            "url(" + require('../../assets/img/admin/jiaoxuelou'+item+'.png') + ")",
+        };
+      },
       randomRgb(item) {
         let R = Math.floor(Math.random() * 130+110);
         let G = Math.floor(Math.random() * 130+110);
@@ -176,9 +182,11 @@ export default{
         };
       },
        init() {
-          this.lists.filter(item=> {
-                     if(item.id == 1){
-                         this.floor = item.floor
+         this.$nextTick()
+         console.log(this.lists[0]);
+          this.lists[0].filter(item=> {
+                     if(item.b_id == 1){
+                         this.floor = item.b_story
                      }
                  })
         clearTimeout(this.playTimer)
@@ -211,9 +219,9 @@ export default{
         let pageIndex = this.slide.getCurrentPage().pageX
         this.currentPageIndex = pageIndex
         this.jiao = this.currentPageIndex+1
-        this.lists.filter(item=> {
-                     if(item.id == this.jiao){
-                         this.floor = item.floor
+        this.lists[0].filter(item=> {
+                     if(item.b_id == this.jiao){
+                         this.floor = item.b_story
                      }
                  })
       }
