@@ -114,7 +114,6 @@ export default{
      playTimer: 0,
      bu_num:4,
      item:"",
-     
      lists:[
       //  {one:"4号教学楼",two:"4",id:4,
       //  'icon': {
@@ -128,6 +127,7 @@ export default{
   },
   created(){
     this.jiekou()
+   
   },
    mounted(){
    },
@@ -147,7 +147,6 @@ export default{
            resolve( that.lists.push(res.data.data))
         })
         .catch(err=>{
-            console.log(error);
             alert('网络错误，不能访问jsone');
         })
       }).then(()=>{
