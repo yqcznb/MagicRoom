@@ -26,7 +26,7 @@ async function sendCaptcha(phone_num) {
         let captcha_info = await axios.get(
             'http://182.92.170.161:8080/shop/user/authcode_get',
             {
-                    params: {
+                params: {
                     u_phone: phone_num
                 }
             }
@@ -73,12 +73,44 @@ async function captchaRegist(regist_state, log_info, regist_info) {
 
         return log_result;
     }
-        
+}
 
+async function passRegistLogin(regist_state, log_info, regist_info) {
+    if(!regist_state) {
+        // 验证码注册
+        let regist_result = await axios.get(
+            'http://182.92.170.161:8080/shop/user/authcode_register',
+            {
+                params: {
+                    u_phone: regist_info.phone,
+                    u_password: regist_info.password,
+                    u_type: regist_info.type,
+                }
+            }
+        )
+
+        return regist_result;
+        
+    }
+    else {
+        // 验证码登录
+        let log_result = await axios.get(
+            'http://182.92.170.161:8080/shop/user/authcode_login',
+            {
+                params: {
+                    u_phone: log_info.phone,
+                    u_password: log_info.password,
+                }
+            }
+        )
+
+        return log_result;
+    }
 }
 
 export {
     checkRegist,
     sendCaptcha,
-    captchaRegist
+    captchaRegist,
+    passRegistLogin
 }

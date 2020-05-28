@@ -5,7 +5,7 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/log_regist",
+    path: "/",
     name: "log_regist",
     component: () => import("../components/log_regist/index.vue")
   },

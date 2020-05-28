@@ -14,7 +14,10 @@
     </div>
 </template>
 <script>
+import { Dialog } from 'vant';
+
 import Common from '../Admin/common';
+
 export default {
     name: 'common',
     components: { 
@@ -38,6 +41,19 @@ export default {
             // 底部扫描ico
             scan_img: 'https://upload-images.jianshu.io/upload_images/19325457-4fbedea0b98598ca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240',
         }
+    },
+    mounted() {
+        setTimeout(()=>{
+            Dialog.confirm({
+                title: '提示',
+                message: '您是当前课程课代表，是否一键解锁教室设备',
+                cancelButtonText: '稍后',
+            }).then(() => {
+                // on confirm
+            }).catch(() => {
+                // on cancel
+            });
+        },1000);
     },
     methods: {
         // touch操作

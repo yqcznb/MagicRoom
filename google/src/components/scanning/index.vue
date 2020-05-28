@@ -69,7 +69,7 @@ export default {
                     if(identify) {
                         Dialog.confirm({
                             title: '提示',
-                            message: '您是当前课程课代表，是否一键解锁教室设备',
+                            message: '您当前尚未完成身份认证，是否现在认证',
                             cancelButtonText: '稍后',
                         }).then(() => {
                             // on confirm

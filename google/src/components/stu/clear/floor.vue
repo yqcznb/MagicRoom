@@ -1,5 +1,6 @@
 <template>
     <div class="floor">
+        
         {{ floorIndex }}
     </div>
 </template>
